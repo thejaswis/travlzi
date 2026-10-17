@@ -5,7 +5,7 @@ const fallbackContent = {
   approachImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1100&q=85",
   founderName: "Thejaswi",
   founderBio: "I believe the best journeys feel personal. Travlzi brings together destination know-how, thoughtful planning, and little details that turn a holiday into your story.",
-  whatsappNumber: "",
+  whatsappNumber: "918147728538",
   email: "",
   destinations: [
     { name: "Kerala", country: "India", tag: "Slow & scenic", description: "Backwater mornings, misty tea gardens, and a slower kind of escape.", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=85" },
@@ -133,7 +133,21 @@ byId("chat-close").addEventListener("click", () => toggleChat(false));
 function addMessage(text, who) {
   const message = document.createElement("div");
   message.className = who === "user" ? "user-message" : "bot-message";
-  message.textContent = text;
+  // Make WhatsApp URLs in bot replies clickable without interpreting arbitrary HTML.
+  const whatsappUrlPattern = /https:\/\/wa\.me\/[\w?=&%.-]+/g;
+  let lastIndex = 0;
+  for (const match of text.matchAll(whatsappUrlPattern)) {
+    const url = match[0];
+    message.append(document.createTextNode(text.slice(lastIndex, match.index)));
+    const link = document.createElement("a");
+    link.href = url;
+    link.textContent = "Open WhatsApp chat ↗";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    message.append(link);
+    lastIndex = match.index + url.length;
+  }
+  message.append(document.createTextNode(text.slice(lastIndex)));
   byId("chat-messages").append(message);
   byId("chat-messages").scrollTop = byId("chat-messages").scrollHeight;
 }
@@ -148,11 +162,13 @@ function replyTo(message) {
     return "We start with what matters to you: your dates, budget, interests, and pace. Travlzi focuses on personal itineraries, practical destination insights, and better-value options. Tap “Let's talk on WhatsApp” to reach the team.";
   }
   if (/price|cost|budget|deal|cheap/.test(text)) {
-    return "A good-value trip depends on your dates, starting city, and travel style. Share your rough budget and destination with the Travlzi team on WhatsApp so your options can be tailored to you.";
+    const number = safeText(content.whatsappNumber).replace(/\D/g, "");
+    const link = number ? " https://wa.me/" + number + "?text=" + encodeURIComponent("Hi Travlzi! I'd love help planning a trip.") : "";
+    return "A good-value trip depends on your dates, starting city, and travel style. Share your rough budget and destination with the Travlzi team on WhatsApp so your options can be tailored to you." + link;
   }
   if (/whatsapp|human|person|contact|team|book|booking/.test(text)) {
     const number = safeText(content.whatsappNumber).replace(/\D/g, "");
-    if (number) return "Absolutely! You can message the Travlzi team here: https://wa.me/" + number + "?text=" + encodeURIComponent("Hi Travlzi! I'd love help planning a trip.");
+    if (number) return "Absolutely! Message the Travlzi team on WhatsApp: https://wa.me/" + number + "?text=" + encodeURIComponent("Hi Travlzi! I'd love help planning a trip.");
     return "Happy to connect you with the Travlzi team! The WhatsApp number still needs to be added to content.json. Once it is, the contact button will open a ready-to-send message.";
   }
   return "That sounds exciting! I’m a simple starter helper, so I can share basic planning guidance but can’t check live prices or make bookings. Try asking for destination ideas, budget tips, or how planning works — or message the Travlzi team for personal help.";
