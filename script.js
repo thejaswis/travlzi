@@ -134,7 +134,7 @@ function addMessage(text, who) {
   const message = document.createElement("div");
   message.className = who === "user" ? "user-message" : "bot-message";
   // Make WhatsApp URLs in bot replies clickable without interpreting arbitrary HTML.
-  const whatsappUrlPattern = /https:\/\/wa\.me\/[\w?=&%.-]+/g;
+    const whatsappUrlPattern = /https:\/\/wa\.me\/[^\s]+/g;
   let lastIndex = 0;
   for (const match of text.matchAll(whatsappUrlPattern)) {
     const url = match[0];
