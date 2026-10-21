@@ -35,6 +35,13 @@
       "tag": "Mountain air",
       "description": "Panoramic train rides, alpine villages, and big-sky mountain views.",
       "image": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+      "name": "Interlaken",
+      "country": "Switzerland",
+      "tag": "Winter escape",
+      "description": "Snowy mountain scenery, festive Christmas lights, and scenic rail journeys make Interlaken a memorable three-day winter getaway.",
+      "image": "https://raw.githubusercontent.com/thejaswis/travlzi/feature/modern-travlzi-landing/Interlaken/IMG1.jpeg"
     }
   ]
 }
