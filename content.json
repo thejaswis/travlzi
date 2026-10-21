@@ -39,9 +39,10 @@
     {
       "name": "Interlaken",
       "country": "Switzerland",
-      "tag": "Winter escape",
-      "description": "Snowy mountain scenery, festive Christmas lights, and scenic rail journeys make Interlaken a memorable three-day winter getaway.",
-      "image": "https://raw.githubusercontent.com/thejaswis/travlzi/feature/modern-travlzi-landing/Interlaken/IMG1.jpeg"
+      "tag": "Christmas escape",
+      "description": "A three-day Swiss getaway with snowy peaks, festive lights, scenic mountain trains, and local winter treats.",
+      "image": "https://raw.githubusercontent.com/thejaswis/travlzi/feature/modern-travlzi-landing/Interlaken/IMG4.JPG",
+      "detailsUrl": "interlaken.html"
     }
   ]
 }
