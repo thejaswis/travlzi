@@ -11,7 +11,8 @@ const fallbackContent = {
     { name: "Kerala", country: "India", tag: "Slow & scenic", description: "Backwater mornings, misty tea gardens, and a slower kind of escape.", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=85" },
     { name: "Bali", country: "Indonesia", tag: "Island energy", description: "Waterfalls, green rice terraces, beach sunsets, and hidden local gems.", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=85" },
     { name: "Kyoto", country: "Japan", tag: "Culture & calm", description: "Quiet lanes, beautiful temples, seasonal colour, and unforgettable food.", image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=900&q=85" },
-    { name: "Swiss Alps", country: "Switzerland", tag: "Mountain air", description: "Panoramic train rides, alpine villages, and big-sky mountain views.", image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=900&q=85" }
+    { name: "Swiss Alps", country: "Switzerland", tag: "Mountain air", description: "Panoramic train rides, alpine villages, and big-sky mountain views.", image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=900&q=85" },
+    { name: "Interlaken", country: "Switzerland", tag: "Christmas escape", description: "A three-day Swiss getaway with snowy peaks, festive lights, scenic mountain trains, and local winter treats.", image: "https://raw.githubusercontent.com/thejaswis/travlzi/feature/modern-travlzi-landing/Interlaken/IMG4.JPG", detailsUrl: "interlaken.html" }
   ]
 };
 
@@ -69,8 +70,8 @@ function renderDestinations() {
     description.textContent = safeText(destination.description);
     const link = document.createElement("a");
     link.className = "destination-link";
-    link.href = "#contact";
-    link.textContent = "Plan this trip ↗";
+    link.href = destination.detailsUrl || "#contact";
+    link.textContent = destination.detailsUrl ? "Explore itinerary ↗" : "Plan this trip ↗";
     link.addEventListener("click", () => {
       window.setTimeout(() => {
         const input = byId("chat-input");
