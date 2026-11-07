@@ -243,17 +243,20 @@ function renderTravelEssentials(filter = "all") {
 
 const essentialsFilters = byId("essentials-filters");
 if (essentialsFilters) {
-  essentialsFilters.addEventListener("click", event => {
-    const button = event.target.closest("button[data-filter]");
-    if (!button) return;
-    essentialsFilters.querySelectorAll("button[data-filter]").forEach(item => {
-      const active = item === button;
-      item.classList.toggle("active", active);
-      item.setAttribute("aria-pressed", String(active));
+  // Bind each filter directly so taps work reliably on desktop and mobile.
+  const filterButtons = essentialsFilters.querySelectorAll("button[data-filter]");
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const selectedFilter = button.getAttribute("data-filter") || "all";
+      filterButtons.forEach(item => {
+        const active = item === button;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      renderTravelEssentials(selectedFilter);
     });
-    renderTravelEssentials(button.dataset.filter);
   });
-  renderTravelEssentials();
+  renderTravelEssentials("all");
 }
 
 loadContent();
