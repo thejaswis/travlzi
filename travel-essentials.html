@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087f8c">
+  <meta name="description" content="Thoughtful travel essentials for summer, winter, rainy days and adventures.">
+  <title>Travel Essentials — Travlzi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#12343b;--muted:#657a7e;--teal:#087f8c;--cream:#f7f8f4;--line:#e1e9e7}
+    *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif;line-height:1.6}
+    a{color:inherit;text-decoration:none}.site-header{height:82px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,6vw,92px);background:#fff;border-bottom:1px solid var(--line)}
+    .brand{display:inline-flex;align-items:center;gap:10px;font:800 1.45rem Manrope,sans-serif;letter-spacing:-.07em}.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:var(--teal);color:#fff;font-size:1.45rem}.brand-dot{color:var(--teal)}
+    .back-link{font-size:.9rem;font-weight:700;color:#05646f}.page-hero{padding:76px clamp(22px,8vw,120px) 48px;background:#eaf4f1}
+    .eyebrow{margin:0 0 15px;color:var(--teal);font-size:.7rem;letter-spacing:.19em;font-weight:700}.page-hero h1{font:700 clamp(2.5rem,5vw,4.5rem)/1.08 Manrope,sans-serif;letter-spacing:-.06em;margin:0}.page-hero h1 em{font-family:Georgia,serif;font-weight:400}
+    .intro{max-width:650px;color:#5a7175;margin:18px 0 0;line-height:1.8}.content{padding:48px clamp(22px,8vw,120px) 90px;max-width:1440px;margin:auto}
+    .filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}.filter{border:1px solid #c9dfd9;background:#fff;color:#315d60;border-radius:999px;padding:11px 17px;font:700 .82rem "DM Sans",sans-serif;cursor:pointer}.filter:hover,.filter.active{background:#123f45;color:#fff;border-color:#123f45}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{background:#fff;border:1px solid #e3ece8;border-radius:15px;padding:24px;min-width:0;box-shadow:0 8px 24px rgba(21,67,71,.045)}
+    .icon{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:#e4f4f0;font-size:1.35rem}.category{display:inline-block;margin:17px 0 7px;color:var(--teal);font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    .card h2{font:700 1.22rem/1.3 Manrope,sans-serif;letter-spacing:-.03em;margin:0 0 9px}.card p{color:var(--muted);font-size:.88rem;line-height:1.7;min-height:60px;margin:0 0 20px}
+    .links{display:flex;gap:10px;flex-wrap:wrap}.links a{display:inline-flex;padding:9px 12px;border-radius:8px;background:#eaf4f1;color:#075b64;font-size:.78rem;font-weight:700}.links a:hover{background:#d4eee7}
+    .note{margin:25px 0 0;color:#6c8080;font-size:.75rem;line-height:1.7}.empty{color:var(--muted);grid-column:1/-1}
+    footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px clamp(22px,6vw,92px);background:#fff;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.site-header{height:70px}.page-hero{padding-top:55px}.grid{grid-template-columns:1fr}.card p{min-height:0}.filter{padding:9px 13px;font-size:.76rem}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Travlzi home"><span class="brand-mark">t</span><span>travlzi<span class="brand-dot">.</span></span></a>
+    <a class="back-link" href="index.html">← Back to home</a>
+  </header>
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">PACK A LITTLE SMARTER</p>
+      <h1>Travel <em>essentials.</em></h1>
+      <p class="intro">Little things that make a trip smoother. Pick the kind of getaway you're planning to explore useful travel essentials.</p>
+    </section>
+    <section class="content" aria-label="Travel essentials">
+      <div class="filters" id="essentials-filters" role="group" aria-label="Filter travel essentials">
+        <button class="filter active" type="button" data-filter="all" aria-pressed="true">All essentials</button>
+        <button class="filter" type="button" data-filter="summer" aria-pressed="false">☀ Summer</button>
+        <button class="filter" type="button" data-filter="winter" aria-pressed="false">❄ Winter</button>
+        <button class="filter" type="button" data-filter="rainy" aria-pressed="false">☂ Rainy</button>
+        <button class="filter" type="button" data-filter="adventure" aria-pressed="false">↟ Adventure</button>
+      </div>
+      <div class="grid" id="essentials-grid" aria-live="polite"></div>
+      <p class="note">Shopping links open retailer search results in a new tab. Travlzi does not sell these products, verify individual listings, or display live prices or stock. Check product details, seller ratings, delivery and return terms before buying.</p>
+    </section>
+  </main>
+  <footer><span>© <span id="year"></span> Travlzi</span><a href="privacy-policy.html">Privacy Policy</a><span>Thoughtful trips. Personal touches. Better stories.</span></footer>
+  <script src="travel-essentials.js" defer></script>
+</body>
+</html>
