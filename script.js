@@ -13,7 +13,7 @@ const fallbackContent = {
     { name: "Kyoto", country: "Japan", tag: "Culture & calm", description: "Quiet lanes, beautiful temples, seasonal colour, and unforgettable food.", image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=900&q=85" },
     { name: "Swiss Alps", country: "Switzerland", tag: "Mountain air", description: "Panoramic train rides, alpine villages, and big-sky mountain views.", image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=900&q=85" },
     { name: "Interlaken", country: "Switzerland", tag: "Christmas escape", description: "A three-day Swiss getaway with snowy peaks, festive lights, scenic mountain trains, and local winter treats.", image: "https://raw.githubusercontent.com/thejaswis/travlzi/feature/modern-travlzi-landing/Interlaken/IMG4.JPG", detailsUrl: "interlaken.html" },
-    { name: "Inverness", country: "Scotland", tag: "Calm & relaxed", description: "A gentle Highland escape of riverside walks, misty scenery, historic streets and an unhurried pace.", image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=85", detailsUrl: "inverness.html" }
+    { name: "Inverness", country: "Scotland", tag: "Calm & relaxed", description: "A gentle Highland escape of riverside walks, misty scenery, historic streets and an unhurried pace.", image: "images/inverness-cover.webp", detailsUrl: "inverness.html" }
   ]
 };
 
