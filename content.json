@@ -43,6 +43,14 @@
       "description": "A three-day Swiss getaway with snowy peaks, festive lights, scenic mountain trains, and local winter treats.",
       "image": "https://raw.githubusercontent.com/thejaswis/travlzi/feature/modern-travlzi-landing/Interlaken/IMG4.JPG",
       "detailsUrl": "interlaken.html"
+    },
+    {
+      "name": "Inverness",
+      "country": "Scotland",
+      "tag": "Calm & relaxed",
+      "description": "A gentle Highland escape of riverside walks, misty scenery, historic streets and an unhurried pace.",
+      "image": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=85",
+      "detailsUrl": "inverness.html"
     }
   ]
 }
