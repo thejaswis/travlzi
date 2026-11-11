@@ -49,7 +49,7 @@
       "country": "Scotland",
       "tag": "Calm & relaxed",
       "description": "A gentle Highland escape of riverside walks, misty scenery, historic streets and an unhurried pace.",
-      "image": "images/inverness-cover.webp",
+      "image": "https://travlzi.com/images/inverness-cover.webp",
       "detailsUrl": "inverness.html"
     }
   ]
