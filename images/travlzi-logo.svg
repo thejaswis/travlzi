@@ -1,14 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 180" role="img" aria-labelledby="title desc">
-<title id="title">Travlzi</title><desc id="desc">Travlzi travel logo with a blue globe and an airplane following an orbit.</desc>
-<defs><linearGradient id="ocean" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#27c2d5"/><stop offset="1" stop-color="#087fbd"/></linearGradient><linearGradient id="type" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#123a78"/><stop offset="1" stop-color="#0755a7"/></linearGradient></defs>
-<g transform="translate(18 15)">
-<circle cx="74" cy="75" r="63" fill="url(#ocean)" stroke="#123a78" stroke-width="6"/>
-<path d="M39 30l15-9 13 5 5 14-12 8-4 17-13 7-11-13 4-13-9-7zM89 23l18 4 13 14-7 13-14 2-8-12-14-4zM78 86l16-10 17 7 6 16-12 12-6 20-17-5-8-16-12-8z" fill="#9bdf78"/>
-<path d="M20 75c16-35 47-56 84-55M28 113c24 23 63 30 94 11" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="3" stroke-linecap="round"/>
-<path d="M8 118C52 163 145 164 174 93" fill="none" stroke="#f3ad4e" stroke-width="4" stroke-linecap="round" stroke-dasharray="5 9"/>
-<path d="M142 38l44-20-17 27-3 19-9-11-20 7 5-14z" fill="#123a78" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
-</g>
-<text x="205" y="116" font-family="Manrope, Arial, sans-serif" font-size="100" font-weight="800" letter-spacing="-7" fill="url(#type)">Travlzi</text>
-<circle cx="584" cy="48" r="8" fill="#f3ad4e"/>
-<path d="M578 64l-11 17" stroke="#f3ad4e" stroke-width="5" stroke-linecap="round"/>
+<title id="title">Travlzi</title><desc id="desc">A blue travel suitcase with a colourful upward travel arrow, wheels and a red map pin beside the Travlzi wordmark.</desc>
+<defs>
+ <linearGradient id="case" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2458f5"/><stop offset="1" stop-color="#1744d5"/></linearGradient>
+ <linearGradient id="arrow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#05cdbd"/><stop offset=".48" stop-color="#f04439"/><stop offset="1" stop-color="#ffc43d"/></linearGradient>
+ <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff655d"/><stop offset="1" stop-color="#ed443b"/></linearGradient>
+</defs>
+<!-- suitcase -->
+<path d="M76 35V18Q76 9 86 9H126Q136 9 136 19V35H122V23H90V35Z" fill="#2458f5"/>
+<path d="M48 43Q48 28 65 28H145Q163 28 163 46V128Q163 143 146 147L54 164Q30 168 30 146V64Q30 43 48 43Z" fill="url(#case)"/>
+<path d="M88 77H128" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+<!-- colourful sweeping route -->
+<path d="M15 128C-3 145 0 174 29 174C86 174 145 147 178 91" fill="none" stroke="#04cbbb" stroke-width="15" stroke-linecap="round"/>
+<path d="M75 171C123 163 161 133 190 91" fill="none" stroke="#f0443b" stroke-width="15" stroke-linecap="round"/>
+<path d="M181 98C198 79 210 60 218 42" fill="none" stroke="#ffc43d" stroke-width="15" stroke-linecap="round"/>
+<path d="M177 51L221 26L221 82L205 68L187 92L164 76Z" fill="#ffc43d"/>
+<!-- wheels -->
+<circle cx="68" cy="171" r="12" fill="#071a45"/><circle cx="68" cy="171" r="5" fill="#fff"/>
+<circle cx="151" cy="171" r="12" fill="#071a45"/><circle cx="151" cy="171" r="5" fill="#fff"/>
+<!-- wordmark -->
+<text x="244" y="145" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="800" letter-spacing="-6" fill="#071943">Travlzi</text>
+<!-- map pin over the i -->
+<path d="M593 26C580 26 571 36 571 49C571 64 593 88 593 88S615 64 615 49C615 36 606 26 593 26Z" fill="url(#pin)"/>
+<circle cx="593" cy="48" r="9" fill="#fff"/>
 </svg>
