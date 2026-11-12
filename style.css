@@ -17,4 +17,4 @@
 @media(max-width:600px){.essentials-grid{grid-template-columns:1fr}.essentials-filters{gap:7px}.essentials-filter{padding:9px 12px;font-size:.74rem}}
 
 /* Travlzi logo */
-.brand-logo{display:block;width:164px;height:auto;max-height:52px;object-fit:contain}.footer-brand .brand-logo{width:145px;max-height:46px}
+.brand-logo{display:block;width:210px;height:auto;max-height:62px;object-fit:contain}.footer-brand .brand-logo{width:175px;max-height:50px}
