@@ -1,8 +1,8 @@
 const fallbackContent = {
   heroTitle: "Travel that feels like you.",
   heroSubtitle: "Thoughtfully planned journeys, shaped around your kind of adventure — with real-world tips and better-value finds.",
-  heroImage: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=85",
-  approachImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1100&q=85",
+  heroImage: "images/inverness-cover.webp",
+  approachImage: "images/inverness-cover.webp",
   founderName: "Thejaswi",
   founderBio: "I believe the best journeys feel personal. Travlzi brings together destination know-how, thoughtful planning, and little details that turn a holiday into your story.",
   whatsappNumber: "918147728538",
