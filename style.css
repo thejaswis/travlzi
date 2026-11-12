@@ -18,3 +18,42 @@
 
 /* Travlzi logo */
 .brand-logo{display:block;width:210px;height:auto;max-height:62px;object-fit:contain}.footer-brand .brand-logo{width:175px;max-height:50px}
+
+/* Travlzi logo: preserve the artwork's proportions at every screen size */
+.site-header .brand {
+  flex: 0 0 auto;
+  min-width: 0;
+  gap: 0;
+}
+.site-header .brand-logo {
+  display: block;
+  flex: 0 0 auto;
+  width: clamp(132px, 16vw, 190px);
+  max-width: calc(100vw - 100px);
+  height: auto;
+  max-height: 54px;
+  aspect-ratio: 620 / 180;
+  object-fit: contain;
+  object-position: left center;
+}
+.site-footer .brand-logo {
+  display: block;
+  flex: 0 0 auto;
+  width: 160px;
+  max-width: 42vw;
+  height: auto;
+  max-height: 46px;
+  aspect-ratio: 620 / 180;
+  object-fit: contain;
+}
+@media (max-width: 700px) {
+  .site-header {
+    gap: 12px;
+    padding-inline: 16px;
+  }
+  .site-header .brand-logo {
+    width: clamp(126px, 42vw, 160px);
+    max-width: calc(100vw - 76px);
+    max-height: 48px;
+  }
+}
