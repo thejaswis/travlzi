@@ -66,3 +66,4 @@ Edit `content.json` to change the hero, founder details, destination cards and c
 ## Security and privacy
 
 Do not add private API keys to client-side JavaScript, HTML or JSON files. A real AI integration should run behind a server-side endpoint with rate limits, input validation and abuse protection.
+
