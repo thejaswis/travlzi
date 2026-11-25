@@ -376,7 +376,7 @@
     const pct=groupBudget?Math.min(100,Math.max(0,groupSpend/groupBudget*100)):0;
     $("budget-bar-fill").style.width=pct+"%";
     const totals={food:0,transport:0,stay:0,experiences:0};
-    allActivities().forEach(a=>{
+    scheduledActivities.forEach(a=>{
       const cost=Number(a.cost)||0,kind=String(a.category||"").toLowerCase();
       if(kind==="food")totals.food+=cost;
       else if(kind==="transport")totals.transport+=cost;
@@ -408,7 +408,8 @@
       const row=document.createElement("article");row.className="expense-item";
       const info=document.createElement("div");info.className="expense-item-info";
       const title=document.createElement("strong");title.textContent=item.description||"Expense";
-      const meta=document.createElement("span");meta.textContent=fmtDate(item.date||iso(today))+" · "+t(String(item.category||"experienceSpend").toLowerCase())||item.category||"";
+      const meta=document.createElement("span");const categoryLabel=item.category==="Experience"?t("experienceSpend"):t(String(item.category||"").toLowerCase());
+      meta.textContent=fmtDate(item.date||iso(today))+" · "+categoryLabel;
       info.append(title,meta);
       const amount=document.createElement("strong");amount.className="expense-item-amount";amount.textContent=money(item.amount);
       const remove=document.createElement("button");remove.type="button";remove.className="expense-remove";remove.textContent="×";remove.setAttribute("aria-label",t("removeExpense")+" "+(item.description||""));
