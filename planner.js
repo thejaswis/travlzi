@@ -19,7 +19,7 @@
   const t = key => (dictionaries[state.trip?.language||"en"]||dictionaries.en)[key] || dictionaries.en[key] || key;
   const money = value => {
     const requested=state.trip?.currency||"INR";
-    const currency=state.currencyRates?.[requested]?"requested".replace("requested",requested):"INR";
+    const currency=state.currencyRates?.[requested]?requested:"INR";
     const rate=Number(state.currencyRates?.[currency]||1);
     return new Intl.NumberFormat(localeByLanguage[state.trip?.language||"en"]||"en-IN",{style:"currency",currency,maximumFractionDigits:0}).format((Number(value)||0)*rate);
   };
