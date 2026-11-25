@@ -16,7 +16,10 @@ The planner is available at `/planner.html`. Existing destination pages, travel 
 ## Trip planner features
 
 - Build a day-by-day starter itinerary from a destination and date range.
-- Drag activities between days and reorder them by dropping into a day.
+- Keep activities assigned to their day; individual stops cannot be dragged to another day.
+- Swap entire day plans with the previous or next day using the day arrows.
+- Add an activity directly to a specific day, edit its time and estimated duration, or remove it from that day.
+- See the automatically updated estimated time total for each day. Older saved activities receive sensible category-based duration estimates.
 - Add activities, costs, notes, times and optional map locations.
 - Keep undecided activities in an ideas tray.
 - View itinerary pins and a connecting line on an OpenStreetMap-powered map.
@@ -48,7 +51,7 @@ To connect a real AI itinerary service, provide a same-origin or trusted HTTPS e
 <script src="planner.js" defer></script>
 ```
 
-The planner sends a POST JSON body containing `destination`, `origin`, `startDate`, `endDate`, `travellers`, `style` and `budgetPerPerson`. The endpoint should return JSON with a `days` array. Each day should have a `date` and an `activities` array. Each activity can contain `id`, `name`, `note`, `category`, `time`, `cost`, `lat` and `lon`.
+The planner sends a POST JSON body containing `destination`, `origin`, `startDate`, `endDate`, `travellers`, `style` and `budgetPerPerson`. The endpoint should return JSON with a `days` array. Each day should have a `date` and an `activities` array. Each activity can contain `id`, `name`, `note`, `category`, `time`, `durationMinutes`, `cost`, `lat` and `lon`. When `durationMinutes` is omitted, the planner supplies a category-based estimate.
 
 Without this endpoint, the planner creates a curated local starter itinerary. It does not claim to be an LLM-powered service.
 
