@@ -255,20 +255,26 @@
     const note=document.createElement("p");note.textContent=activity.note||activity.category||"Added to your trip";
     info.append(title,note);
     const meta=document.createElement("div");meta.className="activity-meta";
-    const category=document.createElement("span");category.className="category-pill";category.textContent=activity.category||"Activity";
+    const category=document.createElement("span");category.className="category-pill";category.textContent=t((activity.category||"Activity").toLowerCase())||activity.category||"Activity";
     const cost=document.createElement("span");cost.className="activity-cost";cost.textContent=Number(activity.cost)>0?money(activity.cost):"Free";
     meta.append(category,cost);
     if(idea){
-      const add=document.createElement("button");add.type="button";add.className="idea-add";add.textContent="Add to day";add.addEventListener("click",()=>moveActivity(activity.id,0));meta.append(add);
+      const add=document.createElement("button");add.type="button";add.className="idea-add";add.textContent=t("addToDay");add.addEventListener("click",()=>moveActivity(activity.id,0));meta.append(add);
       card.append(handle,time,info,meta);return card;
     }
-    const remove=document.createElement("button");remove.type="button";remove.className="activity-remove";remove.textContent="×";remove.setAttribute("aria-label","Remove "+activity.name);remove.addEventListener("click",()=>removeActivity(activity.id));
-    meta.append(remove);card.append(handle,time,info,meta);return card;
+    const edit=document.createElement("button");edit.type="button";edit.className="activity-edit";edit.textContent=t("edit");edit.addEventListener("click",()=>openEditDialog(activity));
+    const remove=document.createElement("button");remove.type="button";remove.className="activity-remove";remove.textContent="×";remove.setAttribute("aria-label",t("remove")+" "+activity.name);remove.addEventListener("click",()=>removeActivity(activity.id));
+    meta.append(edit,remove);card.append(handle,time,info,meta);return card;
   }
   function attachDropZone(zone,dayIndex,ideas=false){
     zone.addEventListener("dragover",event=>{event.preventDefault();zone.classList.add("drag-over");});
     zone.addEventListener("dragleave",event=>{if(!zone.contains(event.relatedTarget))zone.classList.remove("drag-over");});
     zone.addEventListener("drop",event=>{event.preventDefault();zone.classList.remove("drag-over");const id=event.dataTransfer.getData("text/plain")||state.dragId;if(id)moveActivity(id,dayIndex,ideas);});
+  }
+  function updateDayOptions(select,selected=0){
+    select.replaceChildren();
+    state.trip.days.forEach((day,i)=>{const o=document.createElement("option");o.value=String(i);o.textContent=t("day")+" "+(i+1)+" · "+fmtDate(day.date);select.append(o);});
+    select.value=String(Math.max(0,Math.min(state.trip.days.length-1,selected)));
   }
   function renderDays(){
     const container=$("days-container");container.replaceChildren();
@@ -276,27 +282,90 @@
       const section=document.createElement("section");section.className="day-card";section.dataset.day=index;
       const head=document.createElement("div");head.className="day-heading";
       const left=document.createElement("div"),title=document.createElement("strong"),date=document.createElement("small");
-      title.textContent="Day "+(index+1);date.textContent=fmtDate(day.date);left.append(title,date);
-      const count=document.createElement("span");count.className="day-count";count.textContent=day.activities.length+" "+(day.activities.length===1?"stop":"stops");head.append(left,count);
+      title.textContent=t("day")+" "+(index+1);date.textContent=fmtDate(day.date);left.append(title,date);
+      const count=document.createElement("span");count.className="day-count";count.textContent=day.activities.length+" "+(day.activities.length===1?t("stop"):t("stops"));head.append(left,count);
       const list=document.createElement("div");list.className="activity-list";list.dataset.day=index;
       day.activities.forEach(activity=>list.append(renderActivity(activity)));
-      if(!day.activities.length){const empty=document.createElement("p");empty.className="day-drop-hint";empty.textContent="Drop an activity here or add a new stop.";list.append(empty);}
+      if(!day.activities.length){const empty=document.createElement("p");empty.className="day-drop-hint";empty.textContent=t("noActivities");list.append(empty);}
       attachDropZone(list,index,false);section.append(head,list);container.append(section);
     });
+    updateDayOptions($("library-day-select"),Number($("library-day-select").value)||0);
   }
   function renderIdeas(){
     const list=$("unscheduled-list");list.replaceChildren();
     (state.trip.ideas||[]).forEach(a=>list.append(renderActivity(a,true)));
-    if(!(state.trip.ideas||[]).length){const p=document.createElement("p");p.className="empty-state";p.textContent="No saved ideas yet. Add an activity and keep it here for later.";list.append(p);}
-    attachDropZone(list,-1,true);$("idea-count").textContent=(state.trip.ideas||[]).length+" ideas";
+    if(!(state.trip.ideas||[]).length){const p=document.createElement("p");p.className="empty-state";p.textContent=t("ideasNote");list.append(p);}
+    attachDropZone(list,-1,true);$("idea-count").textContent=(state.trip.ideas||[]).length+" "+t("places");
+  }
+  function libraryPlaces(){
+    const key=tripKey(state.trip.destination);
+    return key?destinations[key].places:customPlaces(state.trip.destination);
+  }
+  function isInItinerary(name){
+    return state.trip.days.some(day=>day.activities.some(a=>a.name.toLowerCase()===String(name).toLowerCase()));
+  }
+  function addLibraryActivity(index){
+    const place=libraryPlaces()[index];if(!place)return;
+    if(isInItinerary(place[0])){toast(t("added"));return;}
+    const dayIndex=Number($("library-day-select").value)||0;
+    state.trip.days[dayIndex].activities.push(makeActivity(place,dayIndex));
+    render();save(true);toast(t("added")+": "+place[0]);
+  }
+  function renderLibrary(){
+    const host=$("activity-library-list");host.replaceChildren();
+    const places=libraryPlaces(),query=$("library-search").value.trim().toLowerCase(),categoryFilter=$("library-category").value;
+    $("library-destination").textContent=state.trip.destination;
+    $("library-count").textContent=places.length+" "+t("places");
+    const matches=places.map((place,index)=>({place,index})).filter(({place})=>
+      (categoryFilter==="all"||place[2]===categoryFilter)&&
+      (!query||(place[0]+" "+place[1]+" "+place[2]).toLowerCase().includes(query)));
+    if(!matches.length){const empty=document.createElement("p");empty.className="empty-state";empty.textContent=t("noActivities");host.append(empty);return;}
+    matches.forEach(({place,index})=>{
+      const item=document.createElement("article");item.className="library-item";
+      const info=document.createElement("div");info.className="library-item-info";
+      const title=document.createElement("strong");title.textContent=place[0];
+      const note=document.createElement("p");note.textContent=place[1];
+      const meta=document.createElement("span");meta.className="library-item-meta";
+      meta.textContent=(t(String(place[2]||"").toLowerCase())||place[2])+" · "+(Number(place[4])>0?money(place[4]):"Free");
+      info.append(title,note,meta);
+      const add=document.createElement("button");add.type="button";add.className="library-add-button";
+      const planned=isInItinerary(place[0]);add.textContent=planned?t("added"):t("addToDay");add.disabled=planned;
+      add.addEventListener("click",()=>addLibraryActivity(index));
+      item.append(info,add);host.append(item);
+    });
   }
   function renderStats(){
-    const t=state.trip,stops=t.days.reduce((sum,d)=>sum+d.activities.length,0),days=t.days.length,group=t.budget*t.travellers;
-    $("trip-title").textContent=t.destination+" getaway";$("trip-subtitle").textContent=days+" days · "+t.travellers+" travellers · from "+(t.origin||"your city");
-    $("stat-days").textContent=days+" "+(days===1?"day":"days");$("stat-stops").textContent=stops+" stops";$("stat-budget").textContent=money(t.budget);$("stat-pace").textContent=styleLabel(t.travelStyle);
-    $("budget-total").textContent=money(group);$("budget-group").textContent=money(group);$("budget-daily").textContent=money(days?group/days:group);
-    const activityCost=allActivities().reduce((s,a)=>s+(Number(a.cost)||0),0),pct=group?Math.min(100,activityCost/group*100):0;
+    const tTrip=state.trip,stops=tTrip.days.reduce((sum,d)=>sum+d.activities.length,0),days=tTrip.days.length;
+    const budgetPerPerson=Number(tTrip.budget)||0,groupBudget=budgetPerPerson*(Number(tTrip.travellers)||1);
+    const plannedPerPerson=allActivities().reduce((sum,a)=>sum+(Number(a.cost)||0),0);
+    const groupSpend=plannedPerPerson*(Number(tTrip.travellers)||1),remaining=budgetPerPerson-plannedPerPerson;
+    $("trip-title").textContent=tTrip.destination+" getaway";
+    $("trip-subtitle").textContent=days+" days · "+tTrip.travellers+" travellers · from "+(tTrip.origin||"your city");
+    $("stat-days").textContent=days+" "+(days===1?"day":"days");$("stat-stops").textContent=stops+" "+t("stops");$("stat-budget").textContent=money(budgetPerPerson);$("stat-pace").textContent=styleLabel(tTrip.travelStyle);
+    $("budget-total").textContent=money(groupBudget);
+    $("budget-progress-text").textContent=money(groupSpend)+" / "+money(groupBudget);
+    $("budget-planned").textContent=money(plannedPerPerson);
+    $("budget-remaining").textContent=money(remaining);
+    $("budget-remaining").classList.toggle("over-budget",remaining<0);
+    $("budget-daily").textContent=money(days?Math.max(0,remaining)/days:Math.max(0,remaining));
+    const pct=groupBudget?Math.min(100,Math.max(0,groupSpend/groupBudget*100)):0;
     $("budget-bar-fill").style.width=pct+"%";
+    const totals={food:0,transport:0,stay:0,experiences:0};
+    allActivities().forEach(a=>{
+      const cost=Number(a.cost)||0,kind=String(a.category||"").toLowerCase();
+      if(kind==="food")totals.food+=cost;
+      else if(kind==="transport")totals.transport+=cost;
+      else if(kind==="stay")totals.stay+=cost;
+      else totals.experiences+=cost;
+    });
+    const breakdown=$("budget-category-list");breakdown.replaceChildren();
+    [["foodSpend",totals.food],["transportSpend",totals.transport],["staySpend",totals.stay],["experienceSpend",totals.experiences]].filter(([,value])=>value>0).forEach(([key,value])=>{
+      const row=document.createElement("div");row.className="budget-category-row";
+      const label=document.createElement("span");label.textContent=t(key);
+      const amount=document.createElement("strong");amount.textContent=money(value);
+      row.append(label,amount);breakdown.append(row);
+    });
+    if(!breakdown.children.length){const empty=document.createElement("span");empty.className="empty-state";empty.textContent=t("noActivities");breakdown.append(empty);}
   }
   function mapCenter(){
     const key=tripKey(state.trip.destination),d=key?destinations[key]:null;
@@ -343,7 +412,7 @@
   }
   function escapeHtml(text){return String(text).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
   function render(){
-    renderDays();renderIdeas();renderStats();renderMap();
+    renderDays();renderIdeas();renderLibrary();renderStats();renderMap();
   }
   function moveActivity(id,targetDay,asIdea=false){
     let activity=null;
