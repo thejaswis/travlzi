@@ -5,3 +5,54 @@
 @media(max-width:560px){.planner-header{height:66px;padding-inline:16px}.planner-header .brand img{width:140px}.planner-header nav{gap:12px;font-size:.72rem}.planner-header nav a:nth-child(2){display:none}.header-cta{padding:9px 10px}.planner-intro{padding:30px 0 22px}.intro-mark{font-size:4rem}.planner-intro h1{font-size:2.25rem}.trip-setup{padding:18px}.trip-form{grid-template-columns:1fr 1fr;gap:11px}.field input,.field select{padding:10px 9px;font-size:.78rem}.generate-button{grid-column:1/-1}.stats-row{gap:8px}.stat-card{padding:11px 9px;gap:8px}.stat-card strong{font-size:.82rem}.stat-card small{font-size:.62rem}.stat-icon{width:31px;height:31px}.map-column{grid-template-columns:1fr}.map-panel{grid-column:auto}.map-panel #trip-map{height:270px}.activity-card{grid-template-columns:15px 52px minmax(0,1fr) auto;gap:7px;padding:8px}.activity-info strong{font-size:.73rem}.activity-info p{font-size:.63rem}.activity-cost{font-size:.62rem}.day-heading{padding:11px 12px}.activity-list{padding:8px}.planner-bottom-cta{align-items:flex-start;flex-direction:column;padding:21px}.dialog-fields{grid-template-columns:1fr 1fr}.dialog-actions{flex-direction:column-reverse}.dialog-actions .button{width:100%}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
 @media print{.planner-header,.planner-intro,.trip-setup,.toolbar-actions,.map-column,.unscheduled,.planner-bottom-cta,.drag-hint,.activity-remove,.drag-handle{display:none!important}.planner-shell{max-width:none;padding:0}.planner-toolbar{padding:10px 0}.workspace-grid{display:block}.day-card{break-inside:avoid;margin-bottom:10px}.activity-card{border:0;border-bottom:1px solid #ddd}.stats-row{grid-template-columns:repeat(4,1fr)}body{background:white}}
+
+/* Interactive activity library, budget roll-up, currencies and Indian language controls */
+.planner-header nav{gap:clamp(10px,2vw,24px)}
+.language-control,.currency-picker{display:flex;align-items:center;gap:7px;color:#62777a;font-size:.68rem;font-weight:700;white-space:nowrap}
+.language-control select,.currency-picker select{border:1px solid #dbe6e2;background:#fff;color:var(--ink);border-radius:8px;padding:8px 9px;font-size:.73rem;font-weight:700;max-width:150px}
+.budget-headline{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.budget-headline h2{font:800 1.18rem var(--font-head);margin:0}
+.budget-headline .eyebrow{margin-bottom:3px}
+.budget-progress-label{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:15px 0 7px;font-size:.67rem;color:var(--muted)}
+.budget-progress-label strong{color:var(--ink);font-weight:800;white-space:nowrap}
+.budget-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:13px}
+.budget-metrics>div{background:#f5faf8;border:1px solid #e4efeb;padding:9px;border-radius:9px;min-width:0}
+.budget-metrics span,.budget-metrics strong{display:block}
+.budget-metrics span{font-size:.61rem;color:var(--muted);line-height:1.4;min-height:29px}
+.budget-metrics strong{font-size:.79rem;margin-top:4px;overflow-wrap:anywhere}
+.budget-metrics strong.over-budget{color:#ad4a42}
+.budget-category-list{display:grid;gap:7px;padding-top:12px;margin-top:12px;border-top:1px solid #e8efec}
+.budget-category-row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.68rem;color:var(--muted)}
+.budget-category-row strong{color:var(--ink)}
+.currency-note{font-size:.6rem;color:#8a9b98;margin:10px 0 2px}
+.rate-source{display:inline-block;font-size:.6rem;color:var(--teal-dark);text-decoration:underline;text-underline-offset:2px}
+.library-panel{padding:18px;margin-top:15px}
+.library-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.library-heading h3{font:800 1.02rem var(--font-head);margin:0}
+.library-heading p:not(.eyebrow){font-size:.68rem;color:var(--muted);margin:5px 0 0;line-height:1.6}
+.library-heading .eyebrow{margin-bottom:4px}
+.library-controls{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(130px,.8fr) minmax(130px,.8fr);gap:9px;margin:15px 0 12px}
+.library-controls .field>span{font-size:.64rem}
+.library-controls .field input,.library-controls .field select{font-size:.75rem;min-height:39px;padding:8px 10px}
+.activity-library-list{display:grid;gap:8px}
+.library-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 11px;border:1px solid #e6eeea;border-radius:10px;background:#fff}
+.library-item-info{min-width:0}
+.library-item-info strong{display:block;font-size:.76rem;line-height:1.4}
+.library-item-info p{font-size:.66rem;color:var(--muted);margin:3px 0;line-height:1.5}
+.library-item-meta{font-size:.61rem;color:#588078}
+.library-add-button{flex:0 0 auto;border:1px solid #cde5dd;background:#edf8f4;color:#17636a;border-radius:7px;padding:8px 10px;font-size:.66rem;font-weight:800}
+.library-add-button:hover:not(:disabled){background:#d8f1e9}
+.library-add-button:disabled{background:#f3f6f4;border-color:#e5ece8;color:#93a29d;cursor:default}
+.activity-edit{border:0;background:transparent;color:var(--teal-dark);font-size:.63rem;font-weight:800;padding:3px}
+.activity-edit:hover{text-decoration:underline}
+.activity-meta{gap:6px}
+.rate-source:hover{color:var(--ink)}
+@media(max-width:1050px){.planner-header nav{gap:10px}.language-control{font-size:.63rem}.language-control select{max-width:116px;padding:7px}}
+@media(max-width:800px){.map-column{grid-template-columns:1fr 1fr}.map-panel{grid-column:1/-1}.budget-metrics span{min-height:38px}}
+@media(max-width:600px){
+  .planner-header nav{gap:7px}.language-control{gap:4px}.language-control span{display:none}.language-control select{max-width:100px;padding:7px 6px;font-size:.66rem}
+  .library-panel{padding:14px}.library-controls{grid-template-columns:1fr 1fr}.library-search{grid-column:1/-1}
+  .library-item{align-items:flex-start;padding:9px}.library-item-info p{font-size:.62rem}.library-add-button{font-size:.61rem;padding:7px 8px}
+  .budget-metrics{gap:5px}.budget-metrics>div{padding:7px}.budget-metrics span{font-size:.57rem;min-height:35px}.budget-metrics strong{font-size:.69rem}
+  .budget-headline{align-items:flex-start}.currency-picker{display:grid;gap:3px}.currency-picker select{max-width:82px}
+}

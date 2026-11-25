@@ -15,84 +15,97 @@
 <body>
   <header class="planner-header">
     <a class="brand" href="index.html" aria-label="Travlzi home"><img src="images/travlzi-logo.svg" alt="Travlzi"></a>
-    <nav aria-label="Planner navigation"><a href="index.html">Home</a><a href="travel-essentials.html">Travel essentials</a><a class="header-cta" href="index.html#contact">Talk to Travlzi ↗</a></nav>
+    <nav aria-label="Planner navigation"><a href="index.html" data-i18n="home">Home</a><a href="travel-essentials.html" data-i18n="essentials">Travel essentials</a><label class="language-control"><span data-i18n="language">Language</span><select id="language-select" aria-label="Choose language"><option value="en">English</option><option value="hi">हिन्दी</option><option value="kn">ಕನ್ನಡ</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option><option value="ml">മലയാളം</option><option value="mr">मराठी</option><option value="bn">বাংলা</option></select></label><a class="header-cta" href="index.html#contact" data-i18n="talkToTravlzi">Talk to Travlzi ↗</a></nav>
   </header>
 
   <main class="planner-shell">
     <section class="planner-intro">
-      <div><p class="eyebrow">YOUR TRIP, YOUR WAY</p><h1>Make room for <em>the good stuff.</em></h1><p>Build a flexible itinerary, move things around, and see your trip take shape on the map.</p></div>
+      <div><p class="eyebrow" data-i18n="plannerEyebrow">YOUR TRIP, YOUR WAY</p><h1><span data-i18n="introTitle">Make room for</span> <em data-i18n="introEm">the good stuff.</em></h1><p data-i18n="introSub">Build a flexible itinerary, move things around, and see your trip take shape on the map.</p></div>
       <div class="intro-mark" aria-hidden="true">t.</div>
     </section>
 
     <section class="trip-setup panel" aria-labelledby="trip-setup-title">
-      <div class="panel-heading"><div><p class="eyebrow">FIRST, THE BIG PICTURE</p><h2 id="trip-setup-title">Your trip details</h2></div><span class="save-state" id="save-state" role="status">Not saved yet</span></div>
+      <div class="panel-heading"><div><p class="eyebrow" data-i18n="setupEyebrow">FIRST, THE BIG PICTURE</p><h2 id="trip-setup-title" data-i18n="tripDetails">Your trip details</h2></div><span class="save-state" id="save-state" role="status">Not saved yet</span></div>
       <form id="trip-form" class="trip-form">
-        <label class="field destination-field"><span>Where are you going?</span><input id="destination" name="destination" list="destination-options" value="Goa" placeholder="Try Goa, Bali, Kyoto…" required><datalist id="destination-options"><option value="Goa"><option value="Kerala"><option value="Bali"><option value="Kyoto"><option value="Interlaken"><option value="Inverness"><option value="Pondicherry"><option value="Puducherry"><option value="Agatti Island"></datalist></label>
-        <label class="field"><span>Starting from</span><input id="origin" name="origin" value="Bengaluru" placeholder="Your city"></label>
-        <label class="field"><span>Start date</span><input id="start-date" name="startDate" type="date" required></label>
-        <label class="field"><span>End date</span><input id="end-date" name="endDate" type="date" required></label>
-        <label class="field"><span>Travellers</span><select id="travellers" name="travellers"><option value="1">1 traveller</option><option value="2" selected>2 travellers</option><option value="3">3 travellers</option><option value="4">4 travellers</option><option value="5">5 travellers</option><option value="6">6 travellers</option><option value="7">7+ travellers</option></select></label>
-        <label class="field"><span>Travel style</span><select id="travel-style" name="travelStyle"><option value="balanced">A bit of everything</option><option value="relaxed">Slow & relaxed</option><option value="adventure">Adventure</option><option value="culture">Culture & food</option><option value="family">Family friendly</option><option value="budget">Budget conscious</option></select></label>
-        <label class="field"><span>Budget per person (₹)</span><input id="budget" name="budget" type="number" min="0" step="500" value="25000" placeholder="25000"></label>
-        <button class="button button-primary generate-button" type="submit"><span aria-hidden="true">✳</span> Build my itinerary</button>
+        <label class="field destination-field"><span data-i18n="destination">Where are you going?</span><input id="destination" name="destination" list="destination-options" value="Goa" placeholder="Try Goa, Bali, Kyoto…" required><datalist id="destination-options"><option value="Goa"><option value="Kerala"><option value="Bali"><option value="Kyoto"><option value="Interlaken"><option value="Inverness"><option value="Pondicherry"><option value="Puducherry"><option value="Agatti Island"></datalist></label>
+        <label class="field"><span data-i18n="startingFrom">Starting from</span><input id="origin" name="origin" value="Bengaluru" placeholder="Your city"></label>
+        <label class="field"><span data-i18n="startDate">Start date</span><input id="start-date" name="startDate" type="date" required></label>
+        <label class="field"><span data-i18n="endDate">End date</span><input id="end-date" name="endDate" type="date" required></label>
+        <label class="field"><span data-i18n="travellers">Travellers</span><select id="travellers" name="travellers"><option value="1">1 traveller</option><option value="2" selected>2 travellers</option><option value="3">3 travellers</option><option value="4">4 travellers</option><option value="5">5 travellers</option><option value="6">6 travellers</option><option value="7">7+ travellers</option></select></label>
+        <label class="field"><span data-i18n="travelStyle">Travel style</span><select id="travel-style" name="travelStyle"><option value="balanced" data-i18n="balancedStyle">A bit of everything</option><option value="relaxed" data-i18n="relaxedStyle">Slow &amp; relaxed</option><option value="adventure" data-i18n="adventureStyle">Adventure</option><option value="culture" data-i18n="cultureStyle">Culture &amp; food</option><option value="family" data-i18n="familyStyle">Family friendly</option><option value="budget" data-i18n="budgetStyle">Budget conscious</option></select></label>
+        <label class="field"><span id="budget-input-label" data-i18n="budgetPerson">Budget per person (INR)</span><input id="budget" name="budget" type="number" min="0" step="100" value="25000" placeholder="25000"></label>
+        <button class="button button-primary generate-button" type="submit"><span aria-hidden="true">✳</span> <span data-i18n="buildItinerary">Build my itinerary</span></button>
       </form>
-      <p class="form-note">Your plan is saved in this browser. No account needed. You can export it and share the file with your travel group.</p>
+      <p class="form-note" data-i18n="formNote">Your plan is saved in this browser. No account needed. You can export it and share the file with your travel group.</p>
     </section>
 
     <section class="planner-toolbar" aria-label="Trip actions">
-      <div><span class="trip-kicker">YOUR ITINERARY</span><h2 id="trip-title">Goa getaway</h2><p id="trip-subtitle">A thoughtful plan for 2 travellers</p></div>
-      <div class="toolbar-actions"><button class="button button-soft" id="add-activity-button" type="button">＋ Add activity</button><button class="button button-soft" id="export-button" type="button">↓ Export trip</button><button class="button button-outline" id="print-button" type="button">Print</button></div>
+      <div><span class="trip-kicker" data-i18n="itinerary">YOUR ITINERARY</span><h2 id="trip-title">Goa getaway</h2><p id="trip-subtitle">A thoughtful plan for 2 travellers</p></div>
+      <div class="toolbar-actions"><button class="button button-soft" id="add-activity-button" type="button"><span data-i18n="addActivity">＋ Add activity</span></button><button class="button button-soft" id="export-button" type="button"><span data-i18n="exportTrip">↓ Export trip</span></button><button class="button button-outline" id="print-button" type="button" data-i18n="print">Print</button></div>
     </section>
 
     <section class="stats-row" aria-label="Trip summary">
-      <article class="stat-card"><span class="stat-icon">◷</span><div><strong id="stat-days">3 days</strong><small>Trip duration</small></div></article>
-      <article class="stat-card"><span class="stat-icon">⌖</span><div><strong id="stat-stops">6 stops</strong><small>Planned activities</small></div></article>
-      <article class="stat-card"><span class="stat-icon">₹</span><div><strong id="stat-budget">₹25,000</strong><small>Budget per person</small></div></article>
-      <article class="stat-card"><span class="stat-icon">↗</span><div><strong id="stat-pace">Balanced</strong><small>Travel pace</small></div></article>
+      <article class="stat-card"><span class="stat-icon">◷</span><div><strong id="stat-days">3 days</strong><small data-i18n="tripDuration">Trip duration</small></div></article>
+      <article class="stat-card"><span class="stat-icon">⌖</span><div><strong id="stat-stops">6 stops</strong><small data-i18n="plannedActivities">Planned activities</small></div></article>
+      <article class="stat-card"><span class="stat-icon">₹</span><div><strong id="stat-budget">₹25,000</strong><small data-i18n="budgetPersonShort">Budget per person</small></div></article>
+      <article class="stat-card"><span class="stat-icon">↗</span><div><strong id="stat-pace">Balanced</strong><small data-i18n="travelPace">Travel pace</small></div></article>
     </section>
 
     <section class="workspace-grid">
       <div class="itinerary-column">
-        <div class="section-mini-heading"><div><p class="eyebrow">MOVE THINGS AROUND</p><h2>Your day-by-day plan</h2></div><span class="drag-hint">↕ Drag cards to reorder</span></div>
+        <div class="section-mini-heading"><div><p class="eyebrow" data-i18n="moveThings">MOVE THINGS AROUND</p><h2 data-i18n="dayByDay">Your day-by-day plan</h2></div><span class="drag-hint" data-i18n="dragHint">↕ Drag cards to reorder</span></div>
         <div id="days-container" class="days-container" aria-live="polite"></div>
+        <section class="library-panel panel" id="activity-library">
+          <div class="library-heading"><div><p class="eyebrow" data-i18n="activityLibraryEyebrow">DON'T MISS A GOOD IDEA</p><h3 data-i18n="activityLibrary">Available activities</h3><p><span data-i18n="libraryFor">Explore ideas for</span> <strong id="library-destination">Goa</strong><span data-i18n="libraryNote">. Removing an activity from your plan won't remove it from this library.</span></p></div><span class="idea-count" id="library-count">0 places</span></div>
+          <div class="library-controls">
+            <label class="field library-search"><span data-i18n="searchActivities">Search activities</span><input id="library-search" type="search" placeholder="Search places, food, nature…" data-i18n-placeholder="searchPlaceholder"></label>
+            <label class="field"><span data-i18n="addToWhichDay">Add to day</span><select id="library-day-select"></select></label>
+            <label class="field"><span data-i18n="filterCategory">Category</span><select id="library-category"><option value="all" data-i18n="allCategories">All categories</option><option value="Attraction" data-i18n="attraction">Attractions</option><option value="Food" data-i18n="food">Food</option><option value="Nature" data-i18n="nature">Nature</option><option value="Culture" data-i18n="culture">Culture</option><option value="Stay" data-i18n="stay">Stay</option><option value="Transport" data-i18n="transport">Transport</option><option value="Free time" data-i18n="freeTime">Free time</option></select></label>
+          </div>
+          <div id="activity-library-list" class="activity-library-list" aria-live="polite"></div>
+        </section>
         <section class="unscheduled panel" id="unscheduled-panel">
-          <div class="unscheduled-heading"><div><span class="eyebrow">MAYBE LATER</span><h3>Ideas to fit in</h3><p>Keep interesting places here until you decide where they belong.</p></div><span class="idea-count" id="idea-count">0 ideas</span></div>
+          <div class="unscheduled-heading"><div><span class="eyebrow" data-i18n="maybeLater">MAYBE LATER</span><h3 data-i18n="ideasToFit">Ideas to fit in</h3><p data-i18n="ideasNote">Keep interesting places here until you decide where they belong.</p></div><span class="idea-count" id="idea-count">0 ideas</span></div>
           <div id="unscheduled-list" class="unscheduled-list"><p class="empty-state">No saved ideas yet. Add an activity and keep it here for later.</p></div>
         </section>
       </div>
 
       <aside class="map-column">
         <section class="map-panel panel">
-          <div class="map-heading"><div><p class="eyebrow">SEE THE BIG PICTURE</p><h2>Trip map</h2></div><button id="map-reset" class="icon-button" type="button" aria-label="Reset map view" title="Reset map view">⌖</button></div>
+          <div class="map-heading"><div><p class="eyebrow" data-i18n="seeBigPicture">SEE THE BIG PICTURE</p><h2 data-i18n="tripMap">Trip map</h2></div><button id="map-reset" class="icon-button" type="button" aria-label="Reset map view" title="Reset map view">⌖</button></div>
           <div id="trip-map" role="application" aria-label="Map showing itinerary activities"></div>
-          <div class="map-legend"><span><i class="legend-dot planned"></i> Planned stop</span><span><i class="legend-dot idea"></i> Saved idea</span></div>
+          <div class="map-legend"><span><i class="legend-dot planned"></i> <span data-i18n="plannedStop">Planned stop</span></span><span><i class="legend-dot idea"></i> <span data-i18n="savedIdea">Saved idea</span></span></div>
           <p class="map-note">Map data © OpenStreetMap contributors. Select a pin to see its activity.</p>
         </section>
         <section class="budget-panel panel">
-          <p class="eyebrow">KEEP IT REAL</p><h2>Budget snapshot</h2>
-          <div class="budget-total"><strong id="budget-total">₹50,000</strong><span>estimated group budget</span></div>
+          <div class="budget-headline"><div><p class="eyebrow" data-i18n="keepItReal">KEEP IT REAL</p><h2 data-i18n="budgetSnapshot">Budget snapshot</h2></div><label class="currency-picker"><span data-i18n="currency">Currency</span><select id="currency-select" aria-label="Display currency"><option value="INR">INR ₹</option><option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="AED">AED د.إ</option><option value="SGD">SGD $</option><option value="AUD">AUD $</option><option value="CAD">CAD $</option><option value="JPY">JPY ¥</option><option value="THB">THB ฿</option><option value="LKR">LKR Rs</option><option value="MYR">MYR RM</option></select></label></div>
+          <div class="budget-total"><strong id="budget-total">₹50,000</strong><span data-i18n="groupBudget">Total budget for everyone</span></div>
+          <div class="budget-progress-label"><span data-i18n="plannedSpend">Planned activity spend</span><strong id="budget-progress-text">₹0 / ₹50,000</strong></div>
           <div class="budget-bar"><span id="budget-bar-fill"></span></div>
-          <div class="budget-breakdown"><div><span>Budget for group</span><strong id="budget-group">₹50,000</strong></div><div><span>Daily allowance</span><strong id="budget-daily">₹16,667</strong></div></div>
-          <p class="budget-note">Planning estimate only. Add actual transport, stay and activity costs when you have quotes.</p>
+          <div class="budget-metrics"><div><span data-i18n="plannedPerPerson">Planned per person</span><strong id="budget-planned">₹0</strong></div><div><span data-i18n="leftPerPerson">Left per person</span><strong id="budget-remaining">₹25,000</strong></div><div><span data-i18n="dailyAllowance">Daily allowance</span><strong id="budget-daily">₹8,333</strong></div></div>
+          <div class="budget-category-list" id="budget-category-list"></div>
+          <p class="budget-note" data-i18n="budgetNote">Activity costs are treated as estimates per person. Add or edit activity costs to update this snapshot.</p>
+          <p class="currency-note" id="currency-rate-note">Amounts are shown in INR.</p>
+          <a class="rate-source" href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer">Rates By Exchange Rate API</a>
         </section>
         <section class="helper-panel panel">
-          <div class="helper-icon">✳</div><div><h3>Need a little inspiration?</h3><p>Try a slower day, add a local food stop, or leave space for an unexpected detour.</p><button id="suggest-button" class="text-button" type="button">Suggest a tweak ↗</button></div>
+          <div class="helper-icon">✳</div><div><h3 data-i18n="needInspiration">Need a little inspiration?</h3><p data-i18n="inspirationNote">Try a slower day, add a local food stop, or leave space for an unexpected detour.</p><button id="suggest-button" class="text-button" type="button" data-i18n="suggestTweak">Suggest a tweak ↗</button></div>
         </section>
       </aside>
     </section>
 
-    <section class="planner-bottom-cta"><div><p class="eyebrow">A LITTLE HELP GOES A LONG WAY</p><h2>Want a human touch?</h2><p>Travlzi can help turn your draft into a trip with thoughtful details.</p></div><a class="button button-primary" id="whatsapp-planner" href="https://wa.me/918147728538" target="_blank" rel="noopener noreferrer">Talk to the Travlzi team ↗</a></section>
+    <section class="planner-bottom-cta"><div><p class="eyebrow" data-i18n="humanTouchEyebrow">A LITTLE HELP GOES A LONG WAY</p><h2 data-i18n="humanTouch">Want a human touch?</h2><p data-i18n="humanTouchNote">Travlzi can help turn your draft into a trip with thoughtful details.</p></div><a class="button button-primary" id="whatsapp-planner" href="https://wa.me/918147728538" target="_blank" rel="noopener noreferrer">Talk to the Travlzi team ↗</a></section>
   </main>
 
   <dialog id="activity-dialog" class="activity-dialog">
     <form id="activity-form" method="dialog">
-      <div class="dialog-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2 id="dialog-title">Add an activity</h2></div><button type="button" class="icon-button" id="dialog-close" aria-label="Close">×</button></div>
-      <label class="field"><span>Activity or place name</span><input id="activity-name" required maxlength="90" placeholder="e.g. Fort Aguada"></label>
-      <label class="field"><span>Short note</span><textarea id="activity-note" rows="2" maxlength="220" placeholder="What makes this stop special?"></textarea></label>
-      <div class="dialog-fields"><label class="field"><span>Day</span><select id="activity-day"></select></label><label class="field"><span>Time</span><input id="activity-time" type="time" value="10:00"></label></div>
-      <div class="dialog-fields"><label class="field"><span>Category</span><select id="activity-category"><option value="Attraction">Attraction</option><option value="Food">Food & drink</option><option value="Nature">Nature</option><option value="Culture">Culture</option><option value="Stay">Stay</option><option value="Transport">Transport</option><option value="Free time">Free time</option></select></label><label class="field"><span>Estimated cost (₹)</span><input id="activity-cost" type="number" min="0" step="50" value="0"></label></div>
-      <label class="field"><span>Location (optional, for map)</span><input id="activity-location" placeholder="Place or area"></label>
-      <div class="dialog-actions"><button class="button button-outline" type="button" id="save-as-idea">Keep as an idea</button><button class="button button-primary" type="submit">Add to itinerary</button></div>
+      <div class="dialog-heading"><div><p class="eyebrow" data-i18n="makeItYours">MAKE IT YOURS</p><h2 id="dialog-title" data-i18n="addActivity">Add an activity</h2></div><button type="button" class="icon-button" id="dialog-close" aria-label="Close">×</button></div>
+      <label class="field"><span data-i18n="activityName">Activity or place name</span><input id="activity-name" required maxlength="90" placeholder="e.g. Fort Aguada"></label>
+      <label class="field"><span data-i18n="shortNote">Short note</span><textarea id="activity-note" rows="2" maxlength="220" placeholder="What makes this stop special?"></textarea></label>
+      <div class="dialog-fields"><label class="field"><span data-i18n="day">Day</span><select id="activity-day"></select></label><label class="field"><span data-i18n="time">Time</span><input id="activity-time" type="time" value="10:00"></label></div>
+      <div class="dialog-fields"><label class="field"><span data-i18n="category">Category</span><select id="activity-category"><option value="Attraction" data-i18n="attraction">Attraction</option><option value="Food" data-i18n="food">Food &amp; drink</option><option value="Nature" data-i18n="nature">Nature</option><option value="Culture" data-i18n="culture">Culture</option><option value="Stay" data-i18n="stay">Stay</option><option value="Transport" data-i18n="transport">Transport</option><option value="Free time" data-i18n="freeTime">Free time</option></select></label><label class="field"><span id="activity-cost-label" data-i18n="estimatedCost">Estimated cost per person (INR)</span><input id="activity-cost" type="number" min="0" step="50" value="0"></label></div>
+      <label class="field"><span data-i18n="locationOptional">Location (optional, for map)</span><input id="activity-location" placeholder="Place or area"></label>
+      <div class="dialog-actions"><button class="button button-outline" type="button" id="save-as-idea" data-i18n="keepAsIdea">Keep as an idea</button><button class="button button-primary" id="activity-submit-button" type="submit" data-i18n="addToItinerary">Add to itinerary</button></div>
     </form>
   </dialog>
 
