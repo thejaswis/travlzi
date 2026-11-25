@@ -94,7 +94,7 @@
       ["Lagoon sunset","Keep the evening open for the water and changing light.","Nature","17:30",0,10.8510,72.1850]
     ]}
   };
-  const state = {trip:null,map:null,markers:[],route:null,dragId:null,toastTimer:null,customCenter:null,currencyRates:{INR:1},currencyRateDate:null,geoLookupFor:null};
+  const state = {trip:null,map:null,markers:[],route:null,dragId:null,toastTimer:null,customCenter:null,currencyRates:{INR:1},currencyRateDate:null,geoLookupFor:null,lastGeocodeAt:0};
   const RATE_CACHE_KEY="travlzi.currencyRates.v1";
   const supportedCurrencies=["INR","USD","EUR","GBP","AED","SGD","AUD","CAD","JPY","THB","LKR","MYR"];
   const currencyNames={INR:"Indian Rupee",USD:"US Dollar",EUR:"Euro",GBP:"British Pound",AED:"UAE Dirham",SGD:"Singapore Dollar",AUD:"Australian Dollar",CAD:"Canadian Dollar",JPY:"Japanese Yen",THB:"Thai Baht",LKR:"Sri Lankan Rupee",MYR:"Malaysian Ringgit"};
@@ -457,9 +457,18 @@
     if(!activity.location)return;
     try{
       const query=encodeURIComponent(activity.location+", "+state.trip.destination);
+      const cacheKey="travlzi.geo."+query;
+      const cached=JSON.parse(localStorage.getItem(cacheKey)||"null");
+      if(cached&&Number.isFinite(cached.lat)&&Number.isFinite(cached.lon)){activity.lat=cached.lat;activity.lon=cached.lon;return;}
+      const wait=Math.max(0,1100-(Date.now()-state.lastGeocodeAt));
+      if(wait)await new Promise(resolve=>setTimeout(resolve,wait));
+      state.lastGeocodeAt=Date.now();
       const response=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+query,{headers:{Accept:"application/json"}});
       if(!response.ok)return;const results=await response.json();
-      if(results[0]){activity.lat=Number(results[0].lat);activity.lon=Number(results[0].lon);}
+      if(results[0]){
+        activity.lat=Number(results[0].lat);activity.lon=Number(results[0].lon);
+        localStorage.setItem(cacheKey,JSON.stringify({lat:activity.lat,lon:activity.lon}));
+      }
     }catch(error){console.info("Could not look up this activity location.");}
   }
   async function submitActivity(asIdea=false){
