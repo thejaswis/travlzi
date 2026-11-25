@@ -95,6 +95,72 @@
     ]}
   };
   const state = {trip:null,map:null,markers:[],route:null,dragId:null,toastTimer:null,customCenter:null,currencyRates:{INR:1},currencyRateDate:null};
+  const RATE_CACHE_KEY="travlzi.currencyRates.v1";
+  const supportedCurrencies=["INR","USD","EUR","GBP","AED","SGD","AUD","CAD","JPY","THB","LKR","MYR"];
+  const currencyNames={INR:"Indian Rupee",USD:"US Dollar",EUR:"Euro",GBP:"British Pound",AED:"UAE Dirham",SGD:"Singapore Dollar",AUD:"Australian Dollar",CAD:"Canadian Dollar",JPY:"Japanese Yen",THB:"Thai Baht",LKR:"Sri Lankan Rupee",MYR:"Malaysian Ringgit"};
+  function applyLanguage(){
+    const lang=state.trip?.language||"en";
+    document.documentElement.lang=lang==="en"?"en":lang+"-IN";
+    document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n);});
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{el.placeholder=t(el.dataset.i18nPlaceholder);});
+    $("language-select").value=lang;
+    syncCurrencyLabels();
+  }
+  function syncCurrencyLabels(){
+    const code=state.trip?.currency||"INR";
+    $("budget-input-label").textContent=t("budgetPerson")+" ("+code+")";
+    $("activity-cost-label").textContent=t("estimatedCost")+" ("+code+")";
+  }
+  async function loadCurrencyRates(){
+    $("currency-select").disabled=true;
+    try{
+      const cached=JSON.parse(localStorage.getItem(RATE_CACHE_KEY)||"null");
+      if(cached&&cached.rates&&cached.rates.INR===undefined){
+        state.currencyRates={INR:1,...cached.rates};
+        state.currencyRateDate=cached.date||"";
+      }
+      const fresh=cached&&cached.savedAt&&(Date.now()-cached.savedAt)<20*60*60*1000;
+      if(!fresh){
+        const response=await fetch("https://open.er-api.com/v6/latest/INR");
+        if(!response.ok)throw new Error("Currency service returned "+response.status);
+        const data=await response.json();
+        if(data.result!=="success"||!data.rates)throw new Error("Currency rates unavailable");
+        state.currencyRates={INR:1,...data.rates};
+        state.currencyRateDate=data.time_last_update_utc||data.time_last_update||"";
+        localStorage.setItem(RATE_CACHE_KEY,JSON.stringify({rates:data.rates,date:state.currencyRateDate,savedAt:Date.now()}));
+      }
+      if(!state.currencyRates[state.trip.currency])state.trip.currency="INR";
+      $("currency-select").value=state.trip.currency;
+      $("currency-select").disabled=false;
+      $("currency-rate-note").textContent=state.trip.currency==="INR"?"Amounts shown in INR.":("INR conversion rates · "+(state.currencyRateDate||"latest available"));
+      syncCurrencyLabels();setFormFromTrip();render();
+    }catch(error){
+      console.warn("Currency conversion rates unavailable.",error);
+      if(!state.currencyRates[state.trip.currency])state.trip.currency="INR";
+      $("currency-select").value=state.trip.currency;$("currency-select").disabled=false;
+      $("currency-rate-note").textContent=state.trip.currency==="INR"?"Currency rates unavailable. Showing INR.":"Showing the last cached conversion rate.";
+      syncCurrencyLabels();setFormFromTrip();render();
+    }
+  }
+  function changeCurrency(code){
+    if(!supportedCurrencies.includes(code)||!state.currencyRates[code]){
+      $("currency-select").value=state.trip.currency||"INR";
+      toast("This currency rate is not available right now.");return;
+    }
+    const budgetInr=toINR($("budget").value);
+    let activityCostInr=null;
+    if($("activity-dialog").open)activityCostInr=toINR($("activity-cost").value);
+    state.trip.budget=budgetInr;state.trip.currency=code;
+    $("budget").value=Math.round(fromINR(state.trip.budget));
+    if(activityCostInr!==null)$("activity-cost").value=Math.round(fromINR(activityCostInr));
+    $("currency-select").value=code;
+    $("currency-rate-note").textContent=code==="INR"?"Amounts shown in INR.":("INR conversion rates · "+(state.currencyRateDate||"latest available"));
+    syncCurrencyLabels();applyLanguage();render();save(true);
+  }
+  function changeLanguage(code){
+    if(!dictionaries[code])return;
+    state.trip.language=code;applyLanguage();render();save(true);
+  }
   function defaultTrip(){
     const start=addDays(iso(today),14),end=addDays(start,2);
     return {destination:"Goa",origin:"Bengaluru",startDate:start,endDate:end,travellers:2,travelStyle:"balanced",budget:25000,currency:"INR",language:"en",days:[],ideas:[],updatedAt:null};
@@ -145,6 +211,9 @@
         const oldStops=saved.days.flatMap(day=>day.activities||[]).map(a=>String(a.name||"")+" "+String(a.note||"")).join(" ").toLowerCase();
         const staleGoaPlan=savedKey!=="goa"&&/fort aguada|fontainhas|panjim|vagator|goan thali/.test(oldStops);
         if(staleGoaPlan){saved.days=buildDays(saved);saved.ideas=[];}
+        if(!supportedCurrencies.includes(saved.currency))saved.currency="INR";
+        if(!dictionaries[saved.language])saved.language="en";
+        if(!Array.isArray(saved.ideas))saved.ideas=[];
         return saved;
       }
     }catch(error){}
@@ -153,12 +222,16 @@
   function setFormFromTrip(){
     const t=state.trip;
     $("destination").value=t.destination;$("origin").value=t.origin;$("start-date").value=t.startDate;$("end-date").value=t.endDate;
-    $("travellers").value=String(t.travellers);$("travel-style").value=t.travelStyle;$("budget").value=t.budget;
+    $("travellers").value=String(t.travellers);$("travel-style").value=t.travelStyle;
+    $("budget").value=Math.round(fromINR(t.budget));
+    if($("currency-select"))$("currency-select").value=t.currency||"INR";
+    if($("language-select"))$("language-select").value=t.language||"en";
+    syncCurrencyLabels();
   }
   function updateTripFromForm(){
     const start=$("start-date").value,end=$("end-date").value;
     if(!start||!end||end<start){toast("Please choose a valid trip date range.");return false;}
-    const next={destination:$("destination").value.trim(),origin:$("origin").value.trim(),startDate:start,endDate:end,travellers:Number($("travellers").value),travelStyle:$("travel-style").value,budget:Number($("budget").value)||0,days:state.trip.days,ideas:state.trip.ideas||[],updatedAt:null};
+    const next={destination:$("destination").value.trim(),origin:$("origin").value.trim(),startDate:start,endDate:end,travellers:Number($("travellers").value),travelStyle:$("travel-style").value,budget:toINR(Number($("budget").value)||0),currency:state.trip.currency||"INR",language:state.trip.language||"en",days:state.trip.days,ideas:state.trip.ideas||[],updatedAt:null};
     if(!next.destination){toast("Add a destination to build your trip.");return false;}
     const oldCount=state.trip.days.length,newCount=Math.min(14,Math.round((new Date(end+"T12:00:00")-new Date(start+"T12:00:00"))/86400000)+1);
     const destinationChanged=next.destination.toLowerCase()!==String(state.trip.destination||"").toLowerCase();
