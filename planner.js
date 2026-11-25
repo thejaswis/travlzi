@@ -104,9 +104,9 @@
   }
   function buildDays(trip){
     const count=Math.max(1,Math.min(14,Math.round((new Date(trip.endDate+"T12:00:00")-new Date(trip.startDate+"T12:00:00"))/86400000)+1));
-    const key=tripKey(trip.destination),data=destinations[key];
+    const key=tripKey(trip.destination),data=key?destinations[key]:null,places=data?data.places:customPlaces(trip.destination);
     return Array.from({length:count},(_,i)=>{
-      const selected=data.places.filter((_,n)=>n%count===i || (count===1&&n<5)).slice(0,5);
+      const selected=places.filter((_,n)=>n%count===i || (count===1&&n<5)).slice(0,5);
       return {date:addDays(trip.startDate,i),activities:selected.map(p=>makeActivity(p,i))};
     });
   }
@@ -142,7 +142,11 @@
     const next={destination:$("destination").value.trim(),origin:$("origin").value.trim(),startDate:start,endDate:end,travellers:Number($("travellers").value),travelStyle:$("travel-style").value,budget:Number($("budget").value)||0,days:state.trip.days,ideas:state.trip.ideas||[],updatedAt:null};
     if(!next.destination){toast("Add a destination to build your trip.");return false;}
     const oldCount=state.trip.days.length,newCount=Math.min(14,Math.round((new Date(end+"T12:00:00")-new Date(start+"T12:00:00"))/86400000)+1);
-    if(oldCount!==newCount||state.trip.startDate!==start||state.trip.endDate!==end){next.days=buildDays(next);next.ideas=state.trip.ideas||[];}
+    const destinationChanged=next.destination.toLowerCase()!==String(state.trip.destination||"").toLowerCase();
+    if(destinationChanged||oldCount!==newCount||state.trip.startDate!==start||state.trip.endDate!==end){
+      next.days=buildDays(next);
+      next.ideas=destinationChanged?[]:(state.trip.ideas||[]);
+    }
     state.trip=next;return true;
   }
   function fmtDate(date){return new Intl.DateTimeFormat("en-IN",{weekday:"short",day:"numeric",month:"short"}).format(new Date(date+"T12:00:00"));}
@@ -203,7 +207,24 @@
     $("budget-bar-fill").style.width=pct+"%";
   }
   function mapCenter(){
-    const key=tripKey(state.trip.destination),d=destinations[key];return [d.lat,d.lon];
+    const key=tripKey(state.trip.destination),d=key?destinations[key]:null;
+    return d?[d.lat,d.lon]:(state.customCenter||[20.5937,78.9629]);
+  }
+  function mapZoom(){
+    return tripKey(state.trip.destination)||state.customCenter?11:4;
+  }
+  async function resolveDestinationMapCenter(){
+    if(tripKey(state.trip.destination)){state.customCenter=null;return;}
+    try{
+      const query=encodeURIComponent(state.trip.destination);
+      const response=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+query,{headers:{Accept:"application/json"}});
+      if(!response.ok)return;
+      const results=await response.json();
+      if(results[0]){
+        state.customCenter=[Number(results[0].lat),Number(results[0].lon)];
+        if(state.map)state.map.setView(state.customCenter,11);
+      }
+    }catch(error){console.info("Could not centre the map for this custom destination.");}
   }
   function initMap(){
     if(!window.L){$("trip-map").innerHTML='<p class="empty-state" style="padding:20px">Map library could not load. Your itinerary still works without the map.</p>';return;}
@@ -287,8 +308,8 @@
         if(Array.isArray(data.days)&&data.days.length){state.trip.days=data.days;render();save(true);toast("Your personalised itinerary is ready.");return;}
       }catch(error){console.warn("AI itinerary endpoint unavailable; using local starter plan.",error);}
     }
-    state.trip.days=buildDays(state.trip);state.trip.ideas=[];
-    render();save(true);
+    state.trip.days=buildDays(state.trip);state.trip.ideas=[];state.customCenter=null;
+    render();save(true);await resolveDestinationMapCenter();
     toast("A starter itinerary is ready. Drag, edit and make it yours.");
   }
   function suggestTweak(){
@@ -316,5 +337,5 @@
     const number="918147728538";const text="Hi Travlzi! I'd like help planning a "+state.trip.days.length+"-day trip to "+state.trip.destination+" from "+state.trip.origin+".";
     event.currentTarget.href="https://wa.me/"+number+"?text="+encodeURIComponent(text);
   });
-  state.trip=load();setFormFromTrip();renderStats();initMap();render();save(true);resolveDestinationMapCenter();
+  state.trip=load();setFormFromTrip();renderStats();initMap();render();save(true);resolveDestinationMapCenter();resolveDestinationMapCenter();
 })();
