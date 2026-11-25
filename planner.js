@@ -6,7 +6,7 @@
   const iso = date => { const d=new Date(date); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
   const addDays = (date,days) => { const d=new Date(date+"T12:00:00"); d.setDate(d.getDate()+days); return iso(d); };
   const dictionaries = {
-    en: {home:"Home",essentials:"Travel essentials",language:"Language",talkToTravlzi:"Talk to Travlzi ↗",plannerEyebrow:"YOUR TRIP, YOUR WAY",introTitle:"Make room for",introEm:"the good stuff.",introSub:"Build a flexible itinerary, move things around, and see your trip take shape on the map.",setupEyebrow:"FIRST, THE BIG PICTURE",tripDetails:"Your trip details",destination:"Where are you going?",startingFrom:"Starting from",startDate:"Start date",endDate:"End date",travellers:"Travellers",travelStyle:"Travel style",budgetPerson:"Budget per person",buildItinerary:"Build my itinerary",formNote:"Your plan is saved in this browser. No account needed. Export it to share with your travel group.",itinerary:"YOUR ITINERARY",addActivity:"＋ Add activity",exportTrip:"↓ Export trip",print:"Print",tripDuration:"Trip duration",plannedActivities:"Planned activities",budgetPersonShort:"Budget per person",travelPace:"Travel pace",moveThings:"MOVE THINGS AROUND",dayByDay:"Your day-by-day plan",dragHint:"↕ Drag cards to reorder",activityLibraryEyebrow:"DON'T MISS A GOOD IDEA",activityLibrary:"Available activities",libraryFor:"Explore ideas for",libraryNote:". Removing an activity from your plan won't remove it from this library.",daysUnit:"days",travellersUnit:"travellers",from:"from",balancedStyle:"A bit of everything",relaxedStyle:"Slow & relaxed",adventureStyle:"Adventure",cultureStyle:"Culture & food",familyStyle:"Family friendly",budgetStyle:"Budget conscious",searchActivities:"Search activities",searchPlaceholder:"Search places, food, nature…",addToWhichDay:"Add to day",filterCategory:"Category",allCategories:"All categories",attraction:"Attractions",food:"Food",nature:"Nature",culture:"Culture",stay:"Stay",transport:"Transport",freeTime:"Free time",maybeLater:"MAYBE LATER",ideasToFit:"Ideas to fit in",ideasNote:"Keep interesting places here until you decide where they belong.",keepItReal:"KEEP IT REAL",budgetSnapshot:"Budget snapshot",currency:"Currency",groupBudget:"Total budget for everyone",plannedSpend:"Planned activity spend",plannedPerPerson:"Planned per person",leftPerPerson:"Left per person",dailyAllowance:"Daily allowance",budgetNote:"Activity costs are estimates per person. Add or edit activity costs to update this snapshot.",seeBigPicture:"SEE THE BIG PICTURE",tripMap:"Trip map",plannedStop:"Planned stop",savedIdea:"Saved idea",needInspiration:"Need a little inspiration?",inspirationNote:"Try a slower day, add a local food stop, or leave space for an unexpected detour.",suggestTweak:"Suggest a tweak ↗",humanTouchEyebrow:"A LITTLE HELP GOES A LONG WAY",humanTouch:"Want a human touch?",humanTouchNote:"Travlzi can help turn your draft into a trip with thoughtful details.",makeItYours:"MAKE IT YOURS",activityName:"Activity or place name",shortNote:"Short note",day:"Day",time:"Time",category:"Category",estimatedCost:"Estimated cost per person",locationOptional:"Location (optional, for map)",keepAsIdea:"Keep as an idea",addToItinerary:"Add to itinerary",stop:"stop",stops:"stops",places:"places",added:"Added",addToDay:"Add to day",noActivities:"No activities match these filters.",activitySpend:"Activity spend",foodSpend:"Food",transportSpend:"Transport",staySpend:"Stay",experienceSpend:"Experiences",edit:"Edit",remove:"Remove",actualExpensesEyebrow:"REAL-WORLD SPENDING",actualExpensesTitle:"Track actual expenses",actualExpensesNote:"Log what your group actually pays. These amounts are separate from itinerary estimates.",expenseDescription:"What did you pay for?",expenseDescriptionPlaceholder:"e.g. Airport taxi",expenseCategory:"Category",expenseAmount:"Amount paid for everyone",expenseDate:"Date",addExpense:"＋ Add expense",actualSpendGroup:"Actual spend (group)",actualSpendPerPerson:"Actual per person",actualBudgetLeft:"Budget left (group)",noExpenses:"No expenses recorded yet.",removeExpense:"Remove expense",expensesCurrencyNote:"Enter the total paid for the group in the selected currency."},
+    en: {home:"Home",essentials:"Travel essentials",language:"Language",talkToTravlzi:"Talk to Travlzi ↗",plannerEyebrow:"YOUR TRIP, YOUR WAY",introTitle:"Make room for",introEm:"the good stuff.",introSub:"Build a flexible itinerary, move things around, and see your trip take shape on the map.",setupEyebrow:"FIRST, THE BIG PICTURE",tripDetails:"Your trip details",destination:"Where are you going?",startingFrom:"Starting from",startDate:"Start date",endDate:"End date",travellers:"Travellers",travelStyle:"Travel style",budgetPerson:"Budget per person",buildItinerary:"Build my itinerary",formNote:"Your plan is saved in this browser. No account needed. Export it to share with your travel group.",itinerary:"YOUR ITINERARY",addActivity:"＋ Add activity",exportTrip:"↓ Export trip",print:"Print",tripDuration:"Trip duration",plannedActivities:"Planned activities",budgetPersonShort:"Budget per person",travelPace:"Travel pace",moveThings:"MOVE THINGS AROUND",dayByDay:"Your day-by-day plan",dragHint:"Use day arrows to swap full-day plans. Add or remove stops within each day",activityLibraryEyebrow:"DON'T MISS A GOOD IDEA",activityLibrary:"Available activities",libraryFor:"Explore ideas for",libraryNote:". Removing an activity from your plan won't remove it from this library.",daysUnit:"days",travellersUnit:"travellers",from:"from",balancedStyle:"A bit of everything",relaxedStyle:"Slow & relaxed",adventureStyle:"Adventure",cultureStyle:"Culture & food",familyStyle:"Family friendly",budgetStyle:"Budget conscious",searchActivities:"Search activities",searchPlaceholder:"Search places, food, nature…",addToWhichDay:"Add to day",filterCategory:"Category",allCategories:"All categories",attraction:"Attractions",food:"Food",nature:"Nature",culture:"Culture",stay:"Stay",transport:"Transport",freeTime:"Free time",maybeLater:"MAYBE LATER",ideasToFit:"Ideas to fit in",ideasNote:"Keep interesting places here until you decide where they belong.",keepItReal:"KEEP IT REAL",budgetSnapshot:"Budget snapshot",currency:"Currency",groupBudget:"Total budget for everyone",plannedSpend:"Planned activity spend",plannedPerPerson:"Planned per person",leftPerPerson:"Left per person",dailyAllowance:"Daily allowance",budgetNote:"Activity costs are estimates per person. Add or edit activity costs to update this snapshot.",seeBigPicture:"SEE THE BIG PICTURE",tripMap:"Trip map",plannedStop:"Planned stop",savedIdea:"Saved idea",needInspiration:"Need a little inspiration?",inspirationNote:"Try a slower day, add a local food stop, or leave space for an unexpected detour.",suggestTweak:"Suggest a tweak ↗",humanTouchEyebrow:"A LITTLE HELP GOES A LONG WAY",humanTouch:"Want a human touch?",humanTouchNote:"Travlzi can help turn your draft into a trip with thoughtful details.",makeItYours:"MAKE IT YOURS",activityName:"Activity or place name",shortNote:"Short note",day:"Day",time:"Time",category:"Category",estimatedCost:"Estimated cost per person",locationOptional:"Location (optional, for map)",keepAsIdea:"Keep as an idea",addToItinerary:"Add to itinerary",stop:"stop",stops:"stops",places:"places",added:"Added",addToDay:"Add to day",noActivities:"No activities match these filters.",activitySpend:"Activity spend",foodSpend:"Food",transportSpend:"Transport",staySpend:"Stay",experienceSpend:"Experiences",edit:"Edit",remove:"Remove",actualExpensesEyebrow:"REAL-WORLD SPENDING",actualExpensesTitle:"Track actual expenses",actualExpensesNote:"Log what your group actually pays. These amounts are separate from itinerary estimates.",expenseDescription:"What did you pay for?",expenseDescriptionPlaceholder:"e.g. Airport taxi",expenseCategory:"Category",expenseAmount:"Amount paid for everyone",expenseDate:"Date",addExpense:"＋ Add expense",actualSpendGroup:"Actual spend (group)",actualSpendPerPerson:"Actual per person",actualBudgetLeft:"Budget left (group)",noExpenses:"No expenses recorded yet.",removeExpense:"Remove expense",expensesCurrencyNote:"Enter the total paid for the group in the selected currency.",durationMinutes:"Estimated duration (minutes)",estimatedDayTime:"Estimated time",addToThisDay:"＋ Add to this day",swapFullDay:"Swap full-day plan",sameDayOnly:"Activities can only be reordered within their day. Use the day arrows to swap full-day plans.",daySwapped:"Full-day plans swapped."},
     hi: {home:"होम",essentials:"यात्रा की ज़रूरी चीज़ें",language:"भाषा",talkToTravlzi:"Travlzi से बात करें ↗",plannerEyebrow:"आपकी यात्रा, आपका अंदाज़",introTitle:"जगह बनाएं",introEm:"खास पलों के लिए।",introSub:"अपनी यात्रा योजना बनाएं, गतिविधियाँ बदलें और उन्हें नक्शे पर देखें।",setupEyebrow:"पहले यात्रा की जानकारी",tripDetails:"यात्रा का विवरण",destination:"कहाँ जाना है?",startingFrom:"कहाँ से शुरू करेंगे",startDate:"शुरुआत की तारीख",endDate:"अंतिम तारीख",travellers:"यात्री",travelStyle:"यात्रा का अंदाज़",budgetPerson:"प्रति व्यक्ति बजट",buildItinerary:"यात्रा योजना बनाएं",formNote:"आपकी योजना इस ब्राउज़र में सेव होती है। इसे डाउनलोड करके साझा करें।",itinerary:"आपकी यात्रा योजना",addActivity:"＋ गतिविधि जोड़ें",exportTrip:"↓ यात्रा निर्यात करें",print:"प्रिंट",tripDuration:"यात्रा की अवधि",plannedActivities:"नियोजित गतिविधियाँ",budgetPersonShort:"प्रति व्यक्ति बजट",travelPace:"यात्रा की गति",moveThings:"बदलकर देखें",dayByDay:"दिन के अनुसार योजना",dragHint:"↕ गतिविधियों को खींचकर क्रम बदलें",activityLibraryEyebrow:"और विकल्प खोजें",activityLibrary:"उपलब्ध गतिविधियाँ",libraryFor:"इनके लिए विकल्प देखें",libraryNote:". योजना से हटाने पर भी यह गतिविधि यहाँ उपलब्ध रहेगी।",daysUnit:"दिन",travellersUnit:"यात्री",from:"से",balancedStyle:"सब कुछ थोड़ा-थोड़ा",relaxedStyle:"आरामदायक",adventureStyle:"रोमांच",cultureStyle:"संस्कृति और भोजन",familyStyle:"परिवार के साथ",budgetStyle:"कम बजट",searchActivities:"गतिविधियाँ खोजें",searchPlaceholder:"स्थान, भोजन, प्रकृति खोजें…",addToWhichDay:"किस दिन जोड़ें",filterCategory:"श्रेणी",allCategories:"सभी श्रेणियाँ",attraction:"देखने की जगहें",food:"भोजन",nature:"प्रकृति",culture:"संस्कृति",stay:"ठहरना",transport:"यातायात",freeTime:"खाली समय",maybeLater:"बाद के लिए",ideasToFit:"बाद में शामिल करें",ideasNote:"जिन जगहों का फैसला नहीं हुआ, उन्हें यहाँ रखें।",keepItReal:"बजट पर नज़र",budgetSnapshot:"बजट का सार",currency:"मुद्रा",groupBudget:"सभी यात्रियों का कुल बजट",plannedSpend:"गतिविधियों का अनुमानित खर्च",plannedPerPerson:"प्रति व्यक्ति अनुमानित खर्च",leftPerPerson:"प्रति व्यक्ति शेष",dailyAllowance:"दैनिक उपलब्ध बजट",budgetNote:"गतिविधियों का खर्च प्रति व्यक्ति अनुमान है। खर्च बदलने पर यह सार अपने आप बदलेगा।",seeBigPicture:"नक्शे पर देखें",tripMap:"यात्रा का नक्शा",plannedStop:"योजना में शामिल",savedIdea:"सहेजा गया विचार",needInspiration:"कुछ नए विचार चाहिए?",inspirationNote:"आराम का समय रखें, स्थानीय भोजन आज़माएँ और अचानक मिलने वाले अनुभवों के लिए जगह छोड़ें।",suggestTweak:"एक सुझाव दें ↗",humanTouchEyebrow:"थोड़ी व्यक्तिगत मदद",humanTouch:"व्यक्तिगत मदद चाहिए?",humanTouchNote:"Travlzi आपकी योजना को खास अनुभवों वाली यात्रा में बदलने में मदद कर सकता है।",makeItYours:"अपनी पसंद से बदलें",activityName:"गतिविधि या जगह का नाम",shortNote:"छोटा विवरण",day:"दिन",time:"समय",category:"श्रेणी",estimatedCost:"प्रति व्यक्ति अनुमानित खर्च",locationOptional:"स्थान (नक्शे के लिए वैकल्पिक)",keepAsIdea:"विचार के रूप में रखें",addToItinerary:"योजना में जोड़ें",stop:"जगह",stops:"जगहें",places:"जगहें",added:"जोड़ा गया",addToDay:"दिन में जोड़ें",noActivities:"इन फ़िल्टर में कोई गतिविधि नहीं मिली।",activitySpend:"गतिविधियों का खर्च",foodSpend:"भोजन",transportSpend:"यातायात",staySpend:"ठहरना",experienceSpend:"अनुभव",edit:"बदलें",remove:"हटाएँ"},
     kn: {home:"ಮುಖಪುಟ",essentials:"ಪ್ರಯಾಣದ ಅಗತ್ಯ ವಸ್ತುಗಳು",language:"ಭಾಷೆ",talkToTravlzi:"Travlzi ಜೊತೆ ಮಾತನಾಡಿ ↗",plannerEyebrow:"ನಿಮ್ಮ ಪ್ರವಾಸ, ನಿಮ್ಮ ಶೈಲಿ",introTitle:"ಸ್ಥಳ ಬಿಡಿ",introEm:"ಸುಂದರ ಕ್ಷಣಗಳಿಗೆ.",introSub:"ನಿಮ್ಮ ಪ್ರವಾಸ ಯೋಜಿಸಿ, ಚಟುವಟಿಕೆಗಳನ್ನು ಬದಲಿಸಿ, ನಕ್ಷೆಯಲ್ಲಿ ನೋಡಿ.",setupEyebrow:"ಮೊದಲು ಪ್ರವಾಸದ ವಿವರಗಳು",tripDetails:"ಪ್ರವಾಸದ ವಿವರಗಳು",destination:"ಎಲ್ಲಿಗೆ ಹೋಗುತ್ತೀರಿ?",startingFrom:"ಪ್ರಾರಂಭಿಸುವ ಸ್ಥಳ",startDate:"ಪ್ರಾರಂಭ ದಿನಾಂಕ",endDate:"ಅಂತಿಮ ದಿನಾಂಕ",travellers:"ಪ್ರಯಾಣಿಕರು",travelStyle:"ಪ್ರವಾಸದ ಶೈಲಿ",budgetPerson:"ಪ್ರತಿ ವ್ಯಕ್ತಿಯ ಬಜೆಟ್",buildItinerary:"ನನ್ನ ಪ್ರವಾಸ ಯೋಜಿಸಿ",formNote:"ನಿಮ್ಮ ಯೋಜನೆ ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿಯುತ್ತದೆ. ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಹಂಚಿಕೊಳ್ಳಬಹುದು.",itinerary:"ನಿಮ್ಮ ಪ್ರವಾಸ ಯೋಜನೆ",addActivity:"＋ ಚಟುವಟಿಕೆ ಸೇರಿಸಿ",exportTrip:"↓ ಪ್ರವಾಸ ರಫ್ತು",print:"ಮುದ್ರಿಸಿ",tripDuration:"ಪ್ರವಾಸದ ಅವಧಿ",plannedActivities:"ಯೋಜಿತ ಚಟುವಟಿಕೆಗಳು",budgetPersonShort:"ಪ್ರತಿ ವ್ಯಕ್ತಿಯ ಬಜೆಟ್",travelPace:"ಪ್ರವಾಸದ ವೇಗ",moveThings:"ಬದಲಿಸಿ ನೋಡಿ",dayByDay:"ದಿನವಾರು ಯೋಜನೆ",dragHint:"↕ ಎಳೆದು ಕ್ರಮ ಬದಲಿಸಿ",activityLibraryEyebrow:"ಇನ್ನಷ್ಟು ಆಯ್ಕೆಗಳು",activityLibrary:"ಲಭ್ಯವಿರುವ ಚಟುವಟಿಕೆಗಳು",libraryFor:"ಇದಕ್ಕಾಗಿ ಆಯ್ಕೆಗಳನ್ನು ನೋಡಿ",libraryNote:". ಯೋಜನೆಯಿಂದ ತೆಗೆದರೂ ಇದು ಇಲ್ಲಿ ಲಭ್ಯವಿರುತ್ತದೆ.",daysUnit:"ದಿನಗಳು",travellersUnit:"ಪ್ರಯಾಣಿಕರು",from:"ಇಂದ",balancedStyle:"ಎಲ್ಲದರ ಸ್ವಲ್ಪ",relaxedStyle:"ನಿಧಾನ ಮತ್ತು ಆರಾಮ",adventureStyle:"ಸಾಹಸ",cultureStyle:"ಸಂಸ್ಕೃತಿ ಮತ್ತು ಆಹಾರ",familyStyle:"ಕುಟುಂಬ ಸ್ನೇಹಿ",budgetStyle:"ಕಡಿಮೆ ವೆಚ್ಚ",searchActivities:"ಚಟುವಟಿಕೆ ಹುಡುಕಿ",searchPlaceholder:"ಸ್ಥಳ, ಆಹಾರ, ಪ್ರಕೃತಿ ಹುಡುಕಿ…",addToWhichDay:"ಯಾವ ದಿನ ಸೇರಿಸಬೇಕು",filterCategory:"ವರ್ಗ",allCategories:"ಎಲ್ಲಾ ವರ್ಗಗಳು",attraction:"ನೋಡುವ ಸ್ಥಳಗಳು",food:"ಆಹಾರ",nature:"ಪ್ರಕೃತಿ",culture:"ಸಂಸ್ಕೃತಿ",stay:"ವಸತಿ",transport:"ಸಾರಿಗೆ",freeTime:"ವಿರಾಮ ಸಮಯ",maybeLater:"ನಂತರಕ್ಕೆ",ideasToFit:"ನಂತರ ಸೇರಿಸುವ ವಿಚಾರಗಳು",ideasNote:"ಇನ್ನೂ ನಿರ್ಧರಿಸದ ಸ್ಥಳಗಳನ್ನು ಇಲ್ಲಿ ಇಡಿ.",keepItReal:"ಬಜೆಟ್ ಗಮನಿಸಿ",budgetSnapshot:"ಬಜೆಟ್ ವಿವರ",currency:"ಕರೆನ್ಸಿ",groupBudget:"ಎಲ್ಲರ ಒಟ್ಟು ಬಜೆಟ್",plannedSpend:"ಚಟುವಟಿಕೆಗಳ ಅಂದಾಜು ವೆಚ್ಚ",plannedPerPerson:"ಪ್ರತಿ ವ್ಯಕ್ತಿಯ ಅಂದಾಜು ವೆಚ್ಚ",leftPerPerson:"ಪ್ರತಿ ವ್ಯಕ್ತಿಗೆ ಉಳಿದ ಮೊತ್ತ",dailyAllowance:"ದೈನಂದಿನ ಉಳಿಕೆ",budgetNote:"ಚಟುವಟಿಕೆಗಳ ವೆಚ್ಚ ಪ್ರತಿ ವ್ಯಕ್ತಿಗೆ ಅಂದಾಜು. ವೆಚ್ಚ ಬದಲಿಸಿದಾಗ ಈ ವಿವರ ತಾನೇ ಬದಲಾಗುತ್ತದೆ.",seeBigPicture:"ನಕ್ಷೆಯಲ್ಲಿ ನೋಡಿ",tripMap:"ಪ್ರವಾಸದ ನಕ್ಷೆ",plannedStop:"ಯೋಜಿತ ಸ್ಥಳ",savedIdea:"ಉಳಿಸಿದ ಆಲೋಚನೆ",needInspiration:"ಹೊಸ ಆಲೋಚನೆ ಬೇಕೇ?",inspirationNote:"ಸ್ವಲ್ಪ ವಿಶ್ರಾಂತಿ, ಸ್ಥಳೀಯ ಆಹಾರ ಮತ್ತು ಅನಿರೀಕ್ಷಿತ ಅನುಭವಗಳಿಗೆ ಸಮಯ ಬಿಡಿ.",suggestTweak:"ಸಲಹೆ ನೀಡಿ ↗",humanTouchEyebrow:"ವೈಯಕ್ತಿಕ ಸಹಾಯ",humanTouch:"ವೈಯಕ್ತಿಕ ನೆರವು ಬೇಕೇ?",humanTouchNote:"ನಿಮ್ಮ ಕರಡು ಯೋಜನೆಯನ್ನು ವಿಶೇಷ ಪ್ರವಾಸವನ್ನಾಗಿ ಮಾಡಲು Travlzi ಸಹಾಯ ಮಾಡುತ್ತದೆ.",makeItYours:"ನಿಮ್ಮ ಇಷ್ಟಕ್ಕೆ ಬದಲಿಸಿ",activityName:"ಚಟುವಟಿಕೆ ಅಥವಾ ಸ್ಥಳದ ಹೆಸರು",shortNote:"ಸಣ್ಣ ಟಿಪ್ಪಣಿ",day:"ದಿನ",time:"ಸಮಯ",category:"ವರ್ಗ",estimatedCost:"ಪ್ರತಿ ವ್ಯಕ್ತಿಗೆ ಅಂದಾಜು ವೆಚ್ಚ",locationOptional:"ಸ್ಥಳ (ನಕ್ಷೆಗೆ ಐಚ್ಛಿಕ)",keepAsIdea:"ಆಲೋಚನೆಯಾಗಿ ಉಳಿಸಿ",addToItinerary:"ಯೋಜನೆಗೆ ಸೇರಿಸಿ",stop:"ಸ್ಥಳ",stops:"ಸ್ಥಳಗಳು",places:"ಸ್ಥಳಗಳು",added:"ಸೇರಿಸಲಾಗಿದೆ",addToDay:"ದಿನಕ್ಕೆ ಸೇರಿಸಿ",noActivities:"ಈ ಆಯ್ಕೆಗಳಿಗೆ ಚಟುವಟಿಕೆಗಳಿಲ್ಲ.",activitySpend:"ಚಟುವಟಿಕೆ ವೆಚ್ಚ",foodSpend:"ಆಹಾರ",transportSpend:"ಸಾರಿಗೆ",staySpend:"ವಸತಿ",experienceSpend:"ಅನುಭವಗಳು",edit:"ತಿದ್ದು",remove:"ತೆಗೆದುಹಾಕಿ"},
     ta: {home:"முகப்பு",essentials:"பயண அத்தியாவசியங்கள்",language:"மொழி",talkToTravlzi:"Travlzi-யுடன் பேசுங்கள் ↗",plannerEyebrow:"உங்கள் பயணம், உங்கள் விருப்பம்",introTitle:"இடம் ஒதுக்குங்கள்",introEm:"நல்ல அனுபவங்களுக்கு.",introSub:"பயணத் திட்டத்தை உருவாக்கி, செயல்பாடுகளை மாற்றி, வரைபடத்தில் பாருங்கள்.",setupEyebrow:"முதலில் பயண விவரங்கள்",tripDetails:"பயண விவரங்கள்",destination:"எங்கு செல்கிறீர்கள்?",startingFrom:"புறப்படும் இடம்",startDate:"தொடக்க தேதி",endDate:"முடிவு தேதி",travellers:"பயணிகள்",travelStyle:"பயண வகை",budgetPerson:"ஒருவருக்கான பட்ஜெட்",buildItinerary:"என் பயணத் திட்டத்தை உருவாக்கு",formNote:"உங்கள் திட்டம் இந்த உலாவியில் சேமிக்கப்படும். பதிவிறக்கம் செய்து பகிரலாம்.",itinerary:"உங்கள் பயணத் திட்டம்",addActivity:"＋ செயல்பாட்டைச் சேர்",exportTrip:"↓ பயணத்தை ஏற்றுமதி செய்",print:"அச்சிடு",tripDuration:"பயண காலம்",plannedActivities:"திட்டமிட்ட செயல்பாடுகள்",budgetPersonShort:"ஒருவருக்கான பட்ஜெட்",travelPace:"பயண வேகம்",moveThings:"மாற்றிப் பாருங்கள்",dayByDay:"நாள் வாரியான திட்டம்",dragHint:"↕ இழுத்து வரிசையை மாற்றுங்கள்",activityLibraryEyebrow:"மேலும் யோசனைகள்",activityLibrary:"கிடைக்கும் செயல்பாடுகள்",libraryFor:"இதற்கான யோசனைகள்",libraryNote:". திட்டத்திலிருந்து நீக்கினாலும் இங்கே கிடைக்கும்.",daysUnit:"நாட்கள்",travellersUnit:"பயணிகள்",from:"இருந்து",balancedStyle:"கொஞ்சம் எல்லாம்",relaxedStyle:"மெதுவான ஓய்வு",adventureStyle:"சாகசம்",cultureStyle:"கலாசாரம் மற்றும் உணவு",familyStyle:"குடும்பத்திற்கு ஏற்றது",budgetStyle:"குறைந்த செலவு",searchActivities:"செயல்பாடுகளைத் தேடு",searchPlaceholder:"இடங்கள், உணவு, இயற்கை தேடு…",addToWhichDay:"எந்த நாளில் சேர்க்க?",filterCategory:"வகை",allCategories:"அனைத்து வகைகள்",attraction:"பார்க்க வேண்டிய இடங்கள்",food:"உணவு",nature:"இயற்கை",culture:"கலாசாரம்",stay:"தங்குமிடம்",transport:"போக்குவரத்து",freeTime:"ஓய்வு நேரம்",maybeLater:"பிறகு பார்க்க",ideasToFit:"பிறகு சேர்க்கும் யோசனைகள்",ideasNote:"இன்னும் முடிவு செய்யாத இடங்களை இங்கே வைத்துக்கொள்ளுங்கள்.",keepItReal:"பட்ஜெட்டை கவனியுங்கள்",budgetSnapshot:"பட்ஜெட் விவரம்",currency:"நாணயம்",groupBudget:"அனைவருக்குமான மொத்த பட்ஜெட்",plannedSpend:"திட்டமிட்ட செயல்பாட்டு செலவு",plannedPerPerson:"ஒருவருக்கான திட்டமிட்ட செலவு",leftPerPerson:"ஒருவருக்கு மீதம்",dailyAllowance:"தினசரி மீதம்",budgetNote:"செயல்பாட்டு செலவுகள் ஒருவருக்கான மதிப்பீடுகள். செலவை மாற்றினால் இந்த விவரம் தானாக மாறும்.",seeBigPicture:"வரைபடத்தில் பாருங்கள்",tripMap:"பயண வரைபடம்",plannedStop:"திட்டமிட்ட இடம்",savedIdea:"சேமித்த யோசனை",needInspiration:"புதிய யோசனை வேண்டுமா?",inspirationNote:"ஓய்வு நேரம், உள்ளூர் உணவு, எதிர்பாராத அனுபவங்களுக்கு இடம் விடுங்கள்.",suggestTweak:"ஒரு யோசனை கூறு ↗",humanTouchEyebrow:"தனிப்பட்ட உதவி",humanTouch:"தனிப்பட்ட உதவி வேண்டுமா?",humanTouchNote:"உங்கள் திட்டத்தை சிறப்பான பயணமாக மாற்ற Travlzi உதவும்.",makeItYours:"உங்கள் விருப்பப்படி மாற்றுங்கள்",activityName:"செயல்பாடு அல்லது இடத்தின் பெயர்",shortNote:"சிறு குறிப்பு",day:"நாள்",time:"நேரம்",category:"வகை",estimatedCost:"ஒருவருக்கான மதிப்பிடப்பட்ட செலவு",locationOptional:"இடம் (வரைபடத்திற்கான விருப்பம்)",keepAsIdea:"யோசனையாக சேமி",addToItinerary:"திட்டத்தில் சேர்",stop:"இடம்",stops:"இடங்கள்",places:"இடங்கள்",added:"சேர்க்கப்பட்டது",addToDay:"நாளில் சேர்",noActivities:"இந்த வடிகட்டியில் செயல்பாடுகள் இல்லை.",activitySpend:"செயல்பாட்டு செலவு",foodSpend:"உணவு",transportSpend:"போக்குவரத்து",staySpend:"தங்குமிடம்",experienceSpend:"அனுபவங்கள்",edit:"திருத்து",remove:"நீக்கு"},
@@ -208,8 +208,9 @@
       ["Free time","Leave a little room for rest and spontaneous discoveries.","Free time","16:00",0]
     ];
   }
+  const dayTools={defaults:{Food:60,Transport:45,Stay:30,Nature:90,Culture:90,Attraction:90,"Free time":60},defaultFor(c){return this.defaults[c]||90;},format(n){n=Math.max(0,Math.round(Number(n)||0));const h=Math.floor(n/60),m=n%60;return h?(m?h+"h "+m+"m":h+"h"):m+"m";},normalise(trip){(trip.days||[]).forEach((d,i)=>{if(!Array.isArray(d.activities))d.activities=[];d.activities.forEach(a=>{const n=Number(a.durationMinutes);a.durationMinutes=Number.isFinite(n)&&n>=15?Math.min(720,Math.round(n/15)*15):this.defaultFor(a.category);a.day=i;});});(trip.ideas||[]).forEach(a=>{const n=Number(a.durationMinutes);a.durationMinutes=Number.isFinite(n)&&n>=15?Math.min(720,Math.round(n/15)*15):this.defaultFor(a.category);a.day=-1;});return trip;},total(d){return (d.activities||[]).reduce((n,a)=>n+(Number(a.durationMinutes)||this.defaultFor(a.category)),0);}};
   function makeActivity(place,dayIndex){
-    return {id:uid(),name:place[0],note:place[1],category:place[2],time:place[3],cost:place[4],lat:place[5],lon:place[6],day:dayIndex};
+    return {id:uid(),name:place[0],note:place[1],category:place[2],time:place[3],cost:place[4],lat:place[5],lon:place[6],durationMinutes:dayTools.defaultFor(place[2]),day:dayIndex};
   }
   function buildDays(trip){
     const count=Math.max(1,Math.min(14,Math.round((new Date(trip.endDate+"T12:00:00")-new Date(trip.startDate+"T12:00:00"))/86400000)+1));
@@ -239,10 +240,10 @@
         if(!dictionaries[saved.language])saved.language="en";
         if(!Array.isArray(saved.ideas))saved.ideas=[];
          if(!Array.isArray(saved.expenses))saved.expenses=[];
-        return saved;
+        return dayTools.normalise(saved);
       }
     }catch(error){}
-    const trip=defaultTrip();trip.days=buildDays(trip);return trip;
+    const trip=defaultTrip();trip.days=buildDays(trip);return dayTools.normalise(trip);
   }
   function setFormFromTrip(){
     const t=state.trip;
@@ -271,10 +272,7 @@
   function styleLabel(value){return t(({balanced:"balancedStyle",relaxed:"relaxedStyle",adventure:"adventureStyle",culture:"cultureStyle",family:"familyStyle",budget:"budgetStyle"})[value]||"balancedStyle");}
   function allActivities(){return state.trip.days.flatMap((day,index)=>day.activities.map(a=>({...a,day:index}))).concat((state.trip.ideas||[]).map(a=>({...a,day:-1})));}
   function renderActivity(activity,idea=false){
-    const card=document.createElement("article");card.className=idea?"idea-card":"activity-card";card.draggable=true;card.dataset.id=activity.id;card.dataset.idea=String(idea);
-    card.addEventListener("dragstart",event=>{state.dragId=activity.id;card.classList.add("dragging");event.dataTransfer.effectAllowed="move";event.dataTransfer.setData("text/plain",activity.id);});
-    card.addEventListener("dragend",()=>{state.dragId=null;card.classList.remove("dragging");document.querySelectorAll(".drag-over").forEach(el=>el.classList.remove("drag-over"));});
-    const handle=document.createElement("span");handle.className="drag-handle";handle.textContent="⠿";handle.setAttribute("aria-hidden","true");
+    const card=document.createElement("article");card.className=idea?"idea-card":"activity-card";card.dataset.id=activity.id;card.dataset.idea=String(idea);
     const time=document.createElement("span");time.className="activity-time";time.textContent=activity.time||"Anytime";
     const info=document.createElement("div");info.className="activity-info";
     const title=document.createElement("strong");title.textContent=activity.name;
@@ -282,20 +280,16 @@
     info.append(title,note);
     const meta=document.createElement("div");meta.className="activity-meta";
     const category=document.createElement("span");category.className="category-pill";category.textContent=t((activity.category||"Activity").toLowerCase())||activity.category||"Activity";
+    const duration=document.createElement("span");duration.className="activity-duration";duration.textContent=dayTools.format(activity.durationMinutes);
     const cost=document.createElement("span");cost.className="activity-cost";cost.textContent=Number(activity.cost)>0?money(activity.cost):"Free";
-    meta.append(category,cost);
+    meta.append(category,duration,cost);
     if(idea){
-      const add=document.createElement("button");add.type="button";add.className="idea-add";add.textContent=t("addToDay");add.addEventListener("click",()=>moveActivity(activity.id,0));meta.append(add);
-      card.append(handle,time,info,meta);return card;
+      const add=document.createElement("button");add.type="button";add.className="idea-add";add.textContent=t("addToDay");add.addEventListener("click",()=>moveIdeaToDay(activity.id,Number($("library-day-select").value)||0));meta.append(add);
+      card.append(time,info,meta);return card;
     }
     const edit=document.createElement("button");edit.type="button";edit.className="activity-edit";edit.textContent=t("edit");edit.addEventListener("click",()=>openEditDialog(activity));
     const remove=document.createElement("button");remove.type="button";remove.className="activity-remove";remove.textContent="×";remove.setAttribute("aria-label",t("remove")+" "+activity.name);remove.addEventListener("click",()=>removeActivity(activity.id));
     meta.append(edit,remove);card.append(handle,time,info,meta);return card;
-  }
-  function attachDropZone(zone,dayIndex,ideas=false){
-    zone.addEventListener("dragover",event=>{event.preventDefault();zone.classList.add("drag-over");});
-    zone.addEventListener("dragleave",event=>{if(!zone.contains(event.relatedTarget))zone.classList.remove("drag-over");});
-    zone.addEventListener("drop",event=>{event.preventDefault();zone.classList.remove("drag-over");const id=event.dataTransfer.getData("text/plain")||state.dragId;if(id)moveActivity(id,dayIndex,ideas);});
   }
   function updateDayOptions(select,selected=0){
     select.replaceChildren();
@@ -309,11 +303,18 @@
       const head=document.createElement("div");head.className="day-heading";
       const left=document.createElement("div"),title=document.createElement("strong"),date=document.createElement("small");
       title.textContent=t("day")+" "+(index+1);date.textContent=fmtDate(day.date);left.append(title,date);
-      const count=document.createElement("span");count.className="day-count";count.textContent=day.activities.length+" "+(day.activities.length===1?t("stop"):t("stops"));head.append(left,count);
+      const detail=document.createElement("div");detail.className="day-heading-detail";
+      const count=document.createElement("span");count.className="day-count";count.textContent=day.activities.length+" "+(day.activities.length===1?t("stop"):t("stops"));
+      const total=document.createElement("span");total.className="day-time-total";total.textContent=t("estimatedDayTime")+": "+dayTools.format(dayTools.total(day));detail.append(count,total);
+      const controls=document.createElement("div");controls.className="day-heading-controls";
+      const add=document.createElement("button");add.type="button";add.className="day-add-button";add.textContent=t("addToThisDay");add.addEventListener("click",()=>openDialog(index));controls.append(add);
+      const up=document.createElement("button");up.type="button";up.className="day-swap-button";up.textContent="↑";up.disabled=index===0;up.title=t("swapFullDay")+" with previous day";up.setAttribute("aria-label",up.title);up.addEventListener("click",()=>swapDayPlan(index,-1));controls.append(up);
+      const down=document.createElement("button");down.type="button";down.className="day-swap-button";down.textContent="↓";down.disabled=index===state.trip.days.length-1;down.title=t("swapFullDay")+" with next day";down.setAttribute("aria-label",down.title);down.addEventListener("click",()=>swapDayPlan(index,1));controls.append(down);
+      head.append(left,detail,controls);
       const list=document.createElement("div");list.className="activity-list";list.dataset.day=index;
-      day.activities.forEach(activity=>list.append(renderActivity(activity)));
+      day.activities.forEach(activity=>{activity.day=index;list.append(renderActivity(activity));});
       if(!day.activities.length){const empty=document.createElement("p");empty.className="day-drop-hint";empty.textContent=t("noActivities");list.append(empty);}
-      attachDropZone(list,index,false);section.append(head,list);container.append(section);
+      section.append(head,list);container.append(section);
     });
     updateDayOptions($("library-day-select"),Number($("library-day-select").value)||0);
   }
@@ -321,7 +322,7 @@
     const list=$("unscheduled-list");list.replaceChildren();
     (state.trip.ideas||[]).forEach(a=>list.append(renderActivity(a,true)));
     if(!(state.trip.ideas||[]).length){const p=document.createElement("p");p.className="empty-state";p.textContent=t("ideasNote");list.append(p);}
-    attachDropZone(list,-1,true);$("idea-count").textContent=(state.trip.ideas||[]).length+" "+t("places");
+    $("idea-count").textContent=(state.trip.ideas||[]).length+" "+t("places");
   }
   function libraryPlaces(){
     const key=tripKey(state.trip.destination);
@@ -485,30 +486,33 @@
   function render(){
     renderDays();renderIdeas();renderLibrary();renderStats();renderExpenses();renderMap();
   }
-  function moveActivity(id,targetDay,asIdea=false){
-    let activity=null;
-    state.trip.days.forEach(day=>{const i=day.activities.findIndex(a=>a.id===id);if(i>=0)activity=day.activities.splice(i,1)[0];});
-    const ideaIndex=(state.trip.ideas||[]).findIndex(a=>a.id===id);if(ideaIndex>=0)activity=state.trip.ideas.splice(ideaIndex,1)[0];
-    if(!activity)return;
-    if(asIdea||targetDay<0){state.trip.ideas.push(activity);}
-    else{const day=Math.max(0,Math.min(state.trip.days.length-1,targetDay));activity.day=day;state.trip.days[day].activities.push(activity);}
-    render();save(true);
+  function moveIdeaToDay(id,targetDay){
+    const i=(state.trip.ideas||[]).findIndex(a=>a.id===id);if(i<0)return;
+    const activity=state.trip.ideas.splice(i,1)[0],day=Math.max(0,Math.min(state.trip.days.length-1,targetDay));
+    activity.day=day;state.trip.days[day].activities.push(activity);render();save(true);
+  }
+  function swapDayPlan(dayIndex,direction){
+    const other=dayIndex+direction;if(other<0||other>=state.trip.days.length)return;
+    const first=state.trip.days[dayIndex],second=state.trip.days[other];
+    [first.activities,second.activities]=[second.activities,first.activities];
+    first.activities.forEach(a=>a.day=dayIndex);second.activities.forEach(a=>a.day=other);
+    render();save(true);toast(t("daySwapped"));
   }
   function removeActivity(id){
     state.trip.days.forEach(day=>day.activities=day.activities.filter(a=>a.id!==id));
     state.trip.ideas=(state.trip.ideas||[]).filter(a=>a.id!==id);render();save(true);toast("Activity removed.");
   }
-  function openDialog(){
-    updateDayOptions($("activity-day"),0);
+  function openDialog(dayIndex=0){
+    updateDayOptions($("activity-day"),dayIndex);$("activity-day").disabled=false;
     const form=$("activity-form");form.dataset.mode="add";delete form.dataset.activityId;
-    $("activity-name").value="";$("activity-note").value="";$("activity-time").value="10:00";$("activity-cost").value="0";$("activity-location").value="";
+    $("activity-name").value="";$("activity-note").value="";$("activity-time").value="10:00";$("activity-duration").value="90";$("activity-cost").value="0";$("activity-location").value="";
     $("dialog-title").textContent=t("addActivity");$("activity-submit-button").textContent=t("addToItinerary");$("save-as-idea").hidden=false;
     $("activity-dialog").showModal();
   }
   function openEditDialog(activity){
     updateDayOptions($("activity-day"),Number.isInteger(activity.day)?activity.day:0);
-    const form=$("activity-form");form.dataset.mode="edit";form.dataset.activityId=activity.id;
-    $("activity-name").value=activity.name||"";$("activity-note").value=activity.note||"";$("activity-time").value=activity.time==="Anytime"?"":(activity.time||"");
+    const form=$("activity-form");form.dataset.mode="edit";form.dataset.activityId=activity.id;$("activity-day").disabled=true;
+    $("activity-name").value=activity.name||"";$("activity-note").value=activity.note||"";$("activity-time").value=activity.time==="Anytime"?"":(activity.time||"");$("activity-duration").value=activity.durationMinutes||dayTools.defaultFor(activity.category);
     $("activity-cost").value=Math.round(fromINR(Number(activity.cost)||0));$("activity-location").value=activity.location||"";
     $("activity-category").value=activity.category||"Attraction";
     $("dialog-title").textContent=t("edit")+" activity";$("activity-submit-button").textContent=t("edit");$("save-as-idea").hidden=true;
@@ -516,7 +520,8 @@
   }
   function activityFromForm(){
     const name=$("activity-name").value.trim();if(!name){toast("Give your activity a name first.");return null;}
-    const activity={name,note:$("activity-note").value.trim(),time:$("activity-time").value||"Anytime",category:$("activity-category").value,cost:toINR(Number($("activity-cost").value)||0),location:$("activity-location").value.trim()};
+    const duration=Number($("activity-duration").value)||90;
+    const activity={name,note:$("activity-note").value.trim(),time:$("activity-time").value||"Anytime",durationMinutes:Math.min(720,Math.max(15,Math.round(duration/15)*15)),category:$("activity-category").value,cost:toINR(Number($("activity-cost").value)||0),location:$("activity-location").value.trim()};
     return activity;
   }
   async function geocode(activity){
@@ -542,14 +547,13 @@
     const form=$("activity-form"),mode=form.dataset.mode||"add",existingId=form.dataset.activityId;
     const dayIndex=Number($("activity-day").value)||0;
     if(mode==="edit"&&existingId){
-      let existing=null;
-      state.trip.days.forEach(day=>{const found=day.activities.find(item=>item.id===existingId);if(found)existing=found;});
+      let existing=null,existingDay=-1,existingIndex=-1;
+      state.trip.days.forEach((day,index)=>{const found=day.activities.findIndex(item=>item.id===existingId);if(found>=0){existing=day.activities[found];existingDay=index;existingIndex=found;}});
       if(!existing){toast("That activity is no longer in the itinerary.");$("activity-dialog").close();return;}
       const locationChanged=a.location&&a.location!==existing.location;
-      const updated={...existing,...a,id:existing.id,lat:existing.lat,lon:existing.lon,day:dayIndex};
+      const updated={...existing,...a,id:existing.id,lat:existing.lat,lon:existing.lon,day:existingDay};
       if(locationChanged)await geocode(updated);
-      state.trip.days.forEach(day=>day.activities=day.activities.filter(item=>item.id!==existingId));
-      state.trip.days[dayIndex].activities.push(updated);
+      state.trip.days[existingDay].activities[existingIndex]=updated;
       toast("Activity updated.");
     }else{
       const activity={...a,id:uid(),day:dayIndex};
@@ -571,7 +575,7 @@
         const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({destination:state.trip.destination,origin:state.trip.origin,startDate:state.trip.startDate,endDate:state.trip.endDate,travellers:state.trip.travellers,style:state.trip.travelStyle,budgetPerPerson:state.trip.budget})});
         if(!response.ok)throw new Error("Planner service returned "+response.status);
         const data=await response.json();
-        if(Array.isArray(data.days)&&data.days.length){state.trip.days=data.days;render();save(true);toast("Your personalised itinerary is ready.");return;}
+        if(Array.isArray(data.days)&&data.days.length){state.trip.days=data.days;dayTools.normalise(state.trip);render();save(true);toast("Your personalised itinerary is ready.");return;}
       }catch(error){console.warn("AI itinerary endpoint unavailable; using local starter plan.",error);}
     }
     state.trip.days=buildDays(state.trip);state.trip.ideas=[];state.customCenter=null;
