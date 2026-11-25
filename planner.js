@@ -170,8 +170,9 @@
       toast("This currency rate is not available right now.");return;
     }
     const budgetInr=toINR($("budget").value);
-    let activityCostInr=null;
+    let activityCostInr=null,expenseAmountInr=null;
     if($("activity-dialog").open)activityCostInr=toINR($("activity-cost").value);
+    if($("expense-amount")&&$("expense-amount").value!=="")expenseAmountInr=toINR($("expense-amount").value);
     state.trip.budget=budgetInr;state.trip.currency=code;
     $("budget").value=Math.round(fromINR(state.trip.budget));
     if(activityCostInr!==null)$("activity-cost").value=Math.round(fromINR(activityCostInr));
