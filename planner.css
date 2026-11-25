@@ -83,3 +83,20 @@
 .expense-item-amount{font-size:.69rem;white-space:nowrap}
 .expense-remove{width:24px;height:24px;border:0;border-radius:6px;background:#fff0ee;color:#a84a42;font-size:1rem}
 @media(max-width:600px){.expense-form{grid-template-columns:1fr 1fr}.expense-description-field{grid-column:1/-1}.actual-expense-summary{gap:5px}.actual-expense-summary>div{padding:7px}.actual-expense-summary span{font-size:.54rem;min-height:32px}.actual-expense-summary strong{font-size:.68rem}}
+
+/* Day-level schedule controls and activity time estimates */
+.day-heading{align-items:center;gap:12px}
+.day-heading-detail{display:grid;gap:3px;justify-items:center;margin-left:auto}
+.day-heading-detail .day-count{font-size:.65rem;color:#547176}
+.day-time-total{font-size:.64rem;font-weight:800;color:var(--teal-dark);white-space:nowrap}
+.day-heading-controls{display:flex;align-items:center;gap:5px;flex:0 0 auto}
+.day-add-button{border:1px solid #cde5dd;background:#edf8f4;color:#17636a;border-radius:7px;padding:7px 9px;font-size:.64rem;font-weight:800;white-space:nowrap}
+.day-add-button:hover{background:#d8f1e9}
+.day-swap-button{width:29px;height:29px;border:1px solid #dbe6e2;border-radius:7px;background:#fff;color:#31545a;font-size:.9rem;font-weight:800}
+.day-swap-button:hover:not(:disabled){border-color:var(--teal);background:#edf8f4}
+.day-swap-button:disabled{opacity:.32;cursor:not-allowed}
+.activity-duration{font-size:.62rem;color:#748985;white-space:nowrap;padding:3px 5px;background:#f4f7f5;border-radius:5px}
+#activity-day:disabled{background:#f3f6f4;color:#728581;opacity:1;cursor:not-allowed}
+@media(max-width:700px){.day-heading{align-items:flex-start;flex-wrap:wrap;padding:11px 12px}.day-heading-detail{margin-left:auto;justify-items:end}.day-heading-controls{width:100%;justify-content:flex-end}.day-add-button{margin-right:auto}.activity-meta{flex-wrap:wrap;justify-content:flex-end}.activity-duration{font-size:.58rem}}
+@media(max-width:420px){.day-heading-controls{gap:4px}.day-add-button{font-size:.6rem;padding:7px}.day-heading-detail .day-count{font-size:.6rem}.day-time-total{font-size:.58rem}}
+.activity-card{cursor:default}.activity-card:active{cursor:default}.drag-handle{display:none}
