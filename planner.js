@@ -241,8 +241,8 @@
     }
     state.trip=next;return true;
   }
-  function fmtDate(date){return new Intl.DateTimeFormat("en-IN",{weekday:"short",day:"numeric",month:"short"}).format(new Date(date+"T12:00:00"));}
-  function styleLabel(value){return ({balanced:"Balanced",relaxed:"Relaxed",adventure:"Adventure",culture:"Culture & food",family:"Family friendly",budget:"Budget conscious"})[value]||"Balanced";}
+  function fmtDate(date){return new Intl.DateTimeFormat(localeByLanguage[state.trip?.language||"en"]||"en-IN",{weekday:"short",day:"numeric",month:"short"}).format(new Date(date+"T12:00:00"));}
+  function styleLabel(value){return t(({balanced:"balancedStyle",relaxed:"relaxedStyle",adventure:"adventureStyle",culture:"cultureStyle",family:"familyStyle",budget:"budgetStyle"})[value]||"balancedStyle");}
   function allActivities(){return state.trip.days.flatMap((day,index)=>day.activities.map(a=>({...a,day:index}))).concat((state.trip.ideas||[]).map(a=>({...a,day:-1})));}
   function renderActivity(activity,idea=false){
     const card=document.createElement("article");card.className=idea?"idea-card":"activity-card";card.draggable=true;card.dataset.id=activity.id;card.dataset.idea=String(idea);
@@ -341,8 +341,8 @@
     const plannedPerPerson=scheduledActivities.reduce((sum,a)=>sum+(Number(a.cost)||0),0);
     const groupSpend=plannedPerPerson*(Number(tTrip.travellers)||1),remaining=budgetPerPerson-plannedPerPerson;
     $("trip-title").textContent=tTrip.destination+" getaway";
-    $("trip-subtitle").textContent=days+" days · "+tTrip.travellers+" travellers · from "+(tTrip.origin||"your city");
-    $("stat-days").textContent=days+" "+(days===1?"day":"days");$("stat-stops").textContent=stops+" "+t("stops");$("stat-budget").textContent=money(budgetPerPerson);$("stat-pace").textContent=styleLabel(tTrip.travelStyle);
+    $("trip-subtitle").textContent=days+" "+t("daysUnit")+" · "+tTrip.travellers+" "+t("travellersUnit")+" · "+t("from")+" "+(tTrip.origin||"your city");
+    $("stat-days").textContent=days+" "+t("daysUnit");$("stat-stops").textContent=stops+" "+t("stops");$("stat-budget").textContent=money(budgetPerPerson);$("stat-pace").textContent=styleLabel(tTrip.travelStyle);
     $("budget-total").textContent=money(groupBudget);
     $("budget-progress-text").textContent=money(groupSpend)+" / "+money(groupBudget);
     $("budget-planned").textContent=money(plannedPerPerson);
