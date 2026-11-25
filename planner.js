@@ -289,7 +289,7 @@
     }
     const edit=document.createElement("button");edit.type="button";edit.className="activity-edit";edit.textContent=t("edit");edit.addEventListener("click",()=>openEditDialog(activity));
     const remove=document.createElement("button");remove.type="button";remove.className="activity-remove";remove.textContent="×";remove.setAttribute("aria-label",t("remove")+" "+activity.name);remove.addEventListener("click",()=>removeActivity(activity.id));
-    meta.append(edit,remove);card.append(handle,time,info,meta);return card;
+    meta.append(edit,remove);card.append(time,info,meta);return card;
   }
   function updateDayOptions(select,selected=0){
     select.replaceChildren();
@@ -580,7 +580,7 @@
     }
     state.trip.days=buildDays(state.trip);state.trip.ideas=[];state.customCenter=null;
     render();save(true);await resolveDestinationMapCenter();
-    toast("A starter itinerary is ready. Drag, edit and make it yours.");
+    toast("A starter itinerary is ready. Add, remove and personalise your stops.");
   }
   function suggestTweak(){
     const ideas=[
