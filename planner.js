@@ -215,10 +215,26 @@
   function buildDays(trip){
     const count=Math.max(1,Math.min(14,Math.round((new Date(trip.endDate+"T12:00:00")-new Date(trip.startDate+"T12:00:00"))/86400000)+1));
     const key=tripKey(trip.destination),data=key?destinations[key]:null,places=data?data.places:customPlaces(trip.destination);
-    return Array.from({length:count},(_,i)=>{
-      const selected=places.filter((_,n)=>n%count===i || (count===1&&n<5)).slice(0,5);
-      return {date:addDays(trip.startDate,i),activities:selected.map(p=>makeActivity(p,i))};
-    });
+    const days=Array.from({length:count},(_,i)=>({date:addDays(trip.startDate,i),activities:[]}));
+    if(!data)return days.map((day,i)=>({...day,activities:places.filter((_,n)=>n%count===i).map(p=>makeActivity(p,i))}));
+    const located=places.filter(p=>Number.isFinite(Number(p[5]))&&Number.isFinite(Number(p[6])));
+    if(!located.length)return days;
+    const distance=(a,b)=>{const rad=n=>n*Math.PI/180,R=6371,dLat=rad(b[0]-a[0]),dLon=rad(b[1]-a[1]),x=Math.sin(dLat/2)**2+Math.cos(rad(a[0]))*Math.cos(rad(b[0]))*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x));};
+    const seeds=[located[0]];
+    while(seeds.length<Math.min(count,located.length)){
+      const next=located.filter(p=>!seeds.includes(p)).map(p=>({p,d:Math.min(...seeds.map(s=>distance([p[5],p[6]],[s[5],s[6]])))})).sort((a,b)=>b.d-a.d)[0];
+      if(!next)break;seeds.push(next.p);
+    }
+    let centers=seeds.map(p=>[Number(p[5]),Number(p[6])]);
+    while(centers.length<count)centers.push(centers[centers.length-1]);
+    let groups=[];
+    for(let pass=0;pass<8;pass++){
+      groups=Array.from({length:count},()=>[]);
+      located.forEach(p=>{let best=0,bestD=Infinity;centers.forEach((c,i)=>{const d=distance([p[5],p[6]],c);if(d<bestD){bestD=d;best=i;}});groups[best].push(p);});
+      centers=groups.map((g,i)=>g.length?[g.reduce((n,p)=>n+Number(p[5]),0)/g.length,g.reduce((n,p)=>n+Number(p[6]),0)/g.length]:centers[i]);
+    }
+    groups.forEach((group,i)=>{group.sort((a,b)=>String(a[3]||"").localeCompare(String(b[3]||"")));group.slice(0,5).forEach(p=>days[i].activities.push(makeActivity(p,i)));});
+    return days;
   }
   function toast(message){
     const el=$("toast");el.textContent=message;el.classList.add("show");
@@ -271,6 +287,25 @@
   function fmtDate(date){return new Intl.DateTimeFormat(localeByLanguage[state.trip?.language||"en"]||"en-IN",{weekday:"short",day:"numeric",month:"short"}).format(new Date(date+"T12:00:00"));}
   function styleLabel(value){return t(({balanced:"balancedStyle",relaxed:"relaxedStyle",adventure:"adventureStyle",culture:"cultureStyle",family:"familyStyle",budget:"budgetStyle"})[value]||"balancedStyle");}
   function allActivities(){return state.trip.days.flatMap((day,index)=>day.activities.map(a=>({...a,day:index}))).concat((state.trip.ideas||[]).map(a=>({...a,day:-1})));}
+  function geoDistance(a,b){
+    if(!a||!b||!Number.isFinite(Number(a.lat))||!Number.isFinite(Number(a.lon))||!Number.isFinite(Number(b.lat))||!Number.isFinite(Number(b.lon)))return Infinity;
+    const rad=n=>n*Math.PI/180,R=6371,dLat=rad(Number(b.lat)-Number(a.lat)),dLon=rad(Number(b.lon)-Number(a.lon)),x=Math.sin(dLat/2)**2+Math.cos(rad(Number(a.lat)))*Math.cos(rad(Number(b.lat)))*Math.sin(dLon/2)**2;
+    return 2*R*Math.asin(Math.sqrt(x));
+  }
+  function bestDayForPlace(place){
+    if(!place||!Number.isFinite(Number(place[5]))||!Number.isFinite(Number(place[6])))return null;
+    const candidate={lat:Number(place[5]),lon:Number(place[6]),durationMinutes:dayTools.defaultFor(place[2])};
+    let best=null;
+    state.trip.days.forEach((day,index)=>{
+      const stops=day.activities.filter(a=>Number.isFinite(Number(a.lat))&&Number.isFinite(Number(a.lon)));
+      if(!stops.length||dayTools.total(day)+candidate.durationMinutes>480)return;
+      const nearest=Math.min(...stops.map(stop=>geoDistance(candidate,stop)));
+      if(nearest>30)return;
+      const score=nearest+(dayTools.total(day)/480)*2;
+      if(!best||score<best.score)best={index,distance:nearest,score};
+    });
+    return best;
+  }
   function renderActivity(activity,idea=false){
     const card=document.createElement("article");card.className=idea?"idea-card":"activity-card";card.dataset.id=activity.id;card.dataset.idea=String(idea);
     const time=document.createElement("span");time.className="activity-time";time.textContent=activity.time||"Anytime";
@@ -284,7 +319,8 @@
     const cost=document.createElement("span");cost.className="activity-cost";cost.textContent=Number(activity.cost)>0?money(activity.cost):"Free";
     meta.append(category,duration,cost);
     if(idea){
-      const add=document.createElement("button");add.type="button";add.className="idea-add";add.textContent=t("addToDay");add.addEventListener("click",()=>moveIdeaToDay(activity.id,Number($("library-day-select").value)||0));meta.append(add);
+      const match=bestDayForPlace([activity.name,activity.note,activity.category,activity.time,activity.cost,activity.lat,activity.lon]);
+      if(match){const add=document.createElement("button");add.type="button";add.className="idea-add";add.textContent=t("addToDay")+" · "+t("day")+" "+(match.index+1);add.addEventListener("click",()=>moveIdeaToDay(activity.id,match.index));meta.append(add);}
       card.append(time,info,meta);return card;
     }
     const edit=document.createElement("button");edit.type="button";edit.className="activity-edit";edit.textContent=t("edit");edit.addEventListener("click",()=>openEditDialog(activity));
@@ -316,7 +352,6 @@
       if(!day.activities.length){const empty=document.createElement("p");empty.className="day-drop-hint";empty.textContent=t("noActivities");list.append(empty);}
       section.append(head,list);container.append(section);
     });
-    updateDayOptions($("library-day-select"),Number($("library-day-select").value)||0);
   }
   function renderIdeas(){
     const list=$("unscheduled-list");list.replaceChildren();
@@ -331,10 +366,9 @@
   function isInItinerary(name){
     return state.trip.days.some(day=>day.activities.some(a=>a.name.toLowerCase()===String(name).toLowerCase()));
   }
-  function addLibraryActivity(index){
-    const place=libraryPlaces()[index];if(!place)return;
-    if(isInItinerary(place[0])){toast(t("added"));return;}
-    const dayIndex=Number($("library-day-select").value)||0;
+  function addLibraryActivity(index,dayIndex){
+    const place=libraryPlaces()[index];if(!place||!Number.isInteger(dayIndex)||isInItinerary(place[0]))return;
+    const match=bestDayForPlace(place);if(!match||match.index!==dayIndex)return;
     state.trip.days[dayIndex].activities.push(makeActivity(place,dayIndex));
     render();save(true);toast(t("added")+": "+place[0]);
   }
@@ -342,23 +376,33 @@
     const host=$("activity-library-list");host.replaceChildren();
     const places=libraryPlaces(),query=$("library-search").value.trim().toLowerCase(),categoryFilter=$("library-category").value;
     $("library-destination").textContent=state.trip.destination;
-    $("library-count").textContent=places.length+" "+t("places");
     const matches=places.map((place,index)=>({place,index})).filter(({place})=>
-      (categoryFilter==="all"||place[2]===categoryFilter)&&
-      (!query||(place[0]+" "+place[1]+" "+place[2]).toLowerCase().includes(query)));
-    if(!matches.length){const empty=document.createElement("p");empty.className="empty-state";empty.textContent=t("noActivities");host.append(empty);return;}
-    matches.forEach(({place,index})=>{
-      const item=document.createElement("article");item.className="library-item";
-      const info=document.createElement("div");info.className="library-item-info";
-      const title=document.createElement("strong");title.textContent=place[0];
-      const note=document.createElement("p");note.textContent=place[1];
-      const meta=document.createElement("span");meta.className="library-item-meta";
-      meta.textContent=(t(String(place[2]||"").toLowerCase())||place[2])+" · "+(Number(place[4])>0?money(place[4]):"Free");
-      info.append(title,note,meta);
-      const add=document.createElement("button");add.type="button";add.className="library-add-button";
-      const planned=isInItinerary(place[0]);add.textContent=planned?t("added"):t("addToDay");add.disabled=planned;
-      add.addEventListener("click",()=>addLibraryActivity(index));
-      item.append(info,add);host.append(item);
+      !isInItinerary(place[0])&&(categoryFilter==="all"||place[2]===categoryFilter)&&
+      (!query||(place[0]+" "+place[1]+" "+place[2]).toLowerCase().includes(query)))
+      .map(item=>({...item,match:bestDayForPlace(item.place)})).filter(item=>item.match);
+    $("library-count").textContent=matches.length+" "+t("places")+" · matched to your route";
+    if(!matches.length){
+      const empty=document.createElement("p");empty.className="empty-state";
+      empty.textContent=tripKey(state.trip.destination)?"No nearby activities fit your current day routes and available time. Try removing a stop or changing your route.":"Route-based suggestions need a mapped destination. Choose a supported destination to see nearby, day-specific options.";
+      host.append(empty);return;
+    }
+    state.trip.days.forEach((day,dayIndex)=>{
+      const dayMatches=matches.filter(item=>item.match.index===dayIndex);if(!dayMatches.length)return;
+      const group=document.createElement("section");group.className="library-day-group";
+      const heading=document.createElement("h4");heading.className="library-day-title";heading.textContent=t("day")+" "+(dayIndex+1)+" · "+fmtDate(day.date)+" — "+dayTools.format(dayTools.total(day))+" planned";group.append(heading);
+      dayMatches.forEach(({place,index,match})=>{
+        const item=document.createElement("article");item.className="library-item";
+        const info=document.createElement("div");info.className="library-item-info";
+        const title=document.createElement("strong");title.textContent=place[0];
+        const note=document.createElement("p");note.textContent=place[1]+" · "+Math.round(match.distance)+" km from a planned stop";
+        const meta=document.createElement("span");meta.className="library-item-meta";
+        meta.textContent=(t(String(place[2]||"").toLowerCase())||place[2])+" · "+(Number(place[4])>0?money(place[4]):"Free")+" · "+dayTools.format(dayTools.defaultFor(place[2]));
+        info.append(title,note,meta);
+        const add=document.createElement("button");add.type="button";add.className="library-add-button";add.textContent=t("addToDay")+" · "+t("day")+" "+(dayIndex+1);
+        add.addEventListener("click",()=>addLibraryActivity(index,dayIndex));
+        item.append(info,add);group.append(item);
+      });
+      host.append(group);
     });
   }
   function renderStats(){
@@ -488,8 +532,9 @@
   }
   function moveIdeaToDay(id,targetDay){
     const i=(state.trip.ideas||[]).findIndex(a=>a.id===id);if(i<0)return;
-    const activity=state.trip.ideas.splice(i,1)[0],day=Math.max(0,Math.min(state.trip.days.length-1,targetDay));
-    activity.day=day;state.trip.days[day].activities.push(activity);render();save(true);
+    const activity=state.trip.ideas[i],place=[activity.name,activity.note,activity.category,activity.time,activity.cost,activity.lat,activity.lon],match=bestDayForPlace(place);
+    if(!match||match.index!==targetDay)return;
+    state.trip.ideas.splice(i,1);activity.day=targetDay;state.trip.days[targetDay].activities.push(activity);render();save(true);
   }
   function swapDayPlan(dayIndex,direction){
     const other=dayIndex+direction;if(other<0||other>=state.trip.days.length)return;
@@ -608,7 +653,6 @@
   $("currency-select").addEventListener("change",event=>changeCurrency(event.target.value));
   $("library-search").addEventListener("input",renderLibrary);
   $("library-category").addEventListener("change",renderLibrary);
-  $("library-day-select").addEventListener("change",()=>{});
   $("whatsapp-planner").addEventListener("click",event=>{
     const number="918147728538";const text="Hi Travlzi! I'd like help planning a "+state.trip.days.length+"-day trip to "+state.trip.destination+" from "+state.trip.origin+".";
     event.currentTarget.href="https://wa.me/"+number+"?text="+encodeURIComponent(text);
