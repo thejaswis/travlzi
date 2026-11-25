@@ -237,6 +237,7 @@
         if(!supportedCurrencies.includes(saved.currency))saved.currency="INR";
         if(!dictionaries[saved.language])saved.language="en";
         if(!Array.isArray(saved.ideas))saved.ideas=[];
+         if(!Array.isArray(saved.expenses))saved.expenses=[];
         return saved;
       }
     }catch(error){}
