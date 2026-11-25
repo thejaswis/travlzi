@@ -337,5 +337,5 @@
     const number="918147728538";const text="Hi Travlzi! I'd like help planning a "+state.trip.days.length+"-day trip to "+state.trip.destination+" from "+state.trip.origin+".";
     event.currentTarget.href="https://wa.me/"+number+"?text="+encodeURIComponent(text);
   });
-  state.trip=load();setFormFromTrip();renderStats();initMap();render();save(true);resolveDestinationMapCenter();resolveDestinationMapCenter();
+  state.trip=load();setFormFromTrip();renderStats();initMap();render();save(true);resolveDestinationMapCenter();
 })();
