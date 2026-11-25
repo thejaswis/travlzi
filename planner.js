@@ -341,8 +341,8 @@
     const plannedPerPerson=scheduledActivities.reduce((sum,a)=>sum+(Number(a.cost)||0),0);
     const groupSpend=plannedPerPerson*(Number(tTrip.travellers)||1),remaining=budgetPerPerson-plannedPerPerson;
     $("trip-title").textContent=tTrip.destination+" getaway";
-    $("trip-subtitle").textContent=days+" "+t("daysUnit")+" · "+tTrip.travellers+" "+t("travellersUnit")+" · "+t("from")+" "+(tTrip.origin||"your city");
-    $("stat-days").textContent=days+" "+t("daysUnit");$("stat-stops").textContent=stops+" "+t("stops");$("stat-budget").textContent=money(budgetPerPerson);$("stat-pace").textContent=styleLabel(tTrip.travelStyle);
+    $("trip-subtitle").textContent=days+" "+(days===1?t("day"):t("daysUnit"))+" · "+tTrip.travellers+" "+t("travellersUnit")+" · "+t("from")+" "+(tTrip.origin||"your city");
+    $("stat-days").textContent=days+" "+(days===1?t("day"):t("daysUnit"));$("stat-stops").textContent=stops+" "+t("stops");$("stat-budget").textContent=money(budgetPerPerson);$("stat-pace").textContent=styleLabel(tTrip.travelStyle);
     $("budget-total").textContent=money(groupBudget);
     $("budget-progress-text").textContent=money(groupSpend)+" / "+money(groupBudget);
     $("budget-planned").textContent=money(plannedPerPerson);
