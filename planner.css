@@ -105,3 +105,6 @@
 .activity-card{grid-template-columns:62px minmax(0,1fr) auto}
 @media(max-width:1050px){.activity-card{grid-template-columns:56px minmax(0,1fr) auto}}
 @media(max-width:560px){.activity-card{grid-template-columns:52px minmax(0,1fr) auto}}
+
+/* Route-aware optional activity suggestions */
+.library-day-group{display:grid;gap:8px}.library-day-group+.library-day-group{margin-top:15px;padding-top:14px;border-top:1px solid var(--line)}.library-day-title{font:800 .78rem var(--font-head);color:var(--teal-dark);margin:0 0 2px}.library-item-info p{line-height:1.5}
