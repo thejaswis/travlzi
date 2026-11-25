@@ -428,14 +428,24 @@
     state.trip.ideas=(state.trip.ideas||[]).filter(a=>a.id!==id);render();save(true);toast("Activity removed.");
   }
   function openDialog(){
-    const select=$("activity-day");select.replaceChildren();
-    state.trip.days.forEach((day,i)=>{const o=document.createElement("option");o.value=String(i);o.textContent="Day "+(i+1)+" · "+fmtDate(day.date);select.append(o);});
-    $("activity-form").dataset.mode="add";$("activity-name").value="";$("activity-note").value="";$("activity-time").value="10:00";$("activity-cost").value="0";$("activity-location").value="";
+    updateDayOptions($("activity-day"),0);
+    const form=$("activity-form");form.dataset.mode="add";delete form.dataset.activityId;
+    $("activity-name").value="";$("activity-note").value="";$("activity-time").value="10:00";$("activity-cost").value="0";$("activity-location").value="";
+    $("dialog-title").textContent=t("addActivity");$("activity-submit-button").textContent=t("addToItinerary");$("save-as-idea").hidden=false;
+    $("activity-dialog").showModal();
+  }
+  function openEditDialog(activity){
+    updateDayOptions($("activity-day"),Number.isInteger(activity.day)?activity.day:0);
+    const form=$("activity-form");form.dataset.mode="edit";form.dataset.activityId=activity.id;
+    $("activity-name").value=activity.name||"";$("activity-note").value=activity.note||"";$("activity-time").value=activity.time==="Anytime"?"":(activity.time||"");
+    $("activity-cost").value=Math.round(fromINR(Number(activity.cost)||0));$("activity-location").value=activity.location||"";
+    $("activity-category").value=activity.category||"Attraction";
+    $("dialog-title").textContent=t("edit")+" activity";$("activity-submit-button").textContent=t("edit");$("save-as-idea").hidden=true;
     $("activity-dialog").showModal();
   }
   function activityFromForm(){
     const name=$("activity-name").value.trim();if(!name){toast("Give your activity a name first.");return null;}
-    const activity={id:uid(),name,note:$("activity-note").value.trim(),time:$("activity-time").value||"Anytime",category:$("activity-category").value,cost:Number($("activity-cost").value)||0,location:$("activity-location").value.trim()};
+    const activity={name,note:$("activity-note").value.trim(),time:$("activity-time").value||"Anytime",category:$("activity-category").value,cost:toINR(Number($("activity-cost").value)||0),location:$("activity-location").value.trim()};
     return activity;
   }
   async function geocode(activity){
@@ -449,10 +459,25 @@
   }
   async function submitActivity(asIdea=false){
     const a=activityFromForm();if(!a)return;
+    const form=$("activity-form"),mode=form.dataset.mode||"add",existingId=form.dataset.activityId;
     const dayIndex=Number($("activity-day").value)||0;
-    await geocode(a);
-    if(asIdea)state.trip.ideas.push(a);else state.trip.days[dayIndex].activities.push(a);
-    $("activity-dialog").close();render();save(true);toast(asIdea?"Saved to your ideas.":"Activity added to your itinerary.");
+    if(mode==="edit"&&existingId){
+      let existing=null;
+      state.trip.days.forEach(day=>{const found=day.activities.find(item=>item.id===existingId);if(found)existing=found;});
+      if(!existing){toast("That activity is no longer in the itinerary.");$("activity-dialog").close();return;}
+      const locationChanged=a.location&&a.location!==existing.location;
+      const updated={...existing,...a,id:existing.id,lat:existing.lat,lon:existing.lon,day:dayIndex};
+      if(locationChanged)await geocode(updated);
+      state.trip.days.forEach(day=>day.activities=day.activities.filter(item=>item.id!==existingId));
+      state.trip.days[dayIndex].activities.push(updated);
+      toast("Activity updated.");
+    }else{
+      const activity={...a,id:uid(),day:dayIndex};
+      await geocode(activity);
+      if(asIdea)state.trip.ideas.push(activity);else state.trip.days[dayIndex].activities.push(activity);
+      toast(asIdea?t("keepAsIdea"):t("added"));
+    }
+    $("activity-dialog").close();render();save(true);
   }
   function exportTrip(){
     const blob=new Blob([JSON.stringify({product:"Travlzi",exportedAt:new Date().toISOString(),trip:state.trip},null,2)],{type:"application/json"});
@@ -493,10 +518,15 @@
   $("print-button").addEventListener("click",()=>window.print());
   $("suggest-button").addEventListener("click",suggestTweak);
   $("map-reset").addEventListener("click",()=>{if(state.map)state.map.setView(mapCenter(),mapZoom());});
-  $("trip-form").addEventListener("change",()=>{if(updateTripFromForm()){renderStats();save(true);}});
+  $("trip-form").addEventListener("change",()=>{if(updateTripFromForm()){render();save(true);resolveDestinationMapCenter();}});
+  $("language-select").addEventListener("change",event=>changeLanguage(event.target.value));
+  $("currency-select").addEventListener("change",event=>changeCurrency(event.target.value));
+  $("library-search").addEventListener("input",renderLibrary);
+  $("library-category").addEventListener("change",renderLibrary);
+  $("library-day-select").addEventListener("change",()=>{});
   $("whatsapp-planner").addEventListener("click",event=>{
     const number="918147728538";const text="Hi Travlzi! I'd like help planning a "+state.trip.days.length+"-day trip to "+state.trip.destination+" from "+state.trip.origin+".";
     event.currentTarget.href="https://wa.me/"+number+"?text="+encodeURIComponent(text);
   });
-  state.trip=load();setFormFromTrip();renderStats();initMap();render();save(true);resolveDestinationMapCenter();
+  state.trip=load();setFormFromTrip();applyLanguage();renderStats();initMap();render();save(true);resolveDestinationMapCenter();loadCurrencyRates();
 })();
