@@ -94,7 +94,7 @@
       ["Lagoon sunset","Keep the evening open for the water and changing light.","Nature","17:30",0,10.8510,72.1850]
     ]}
   };
-  const state = {trip:null,map:null,markers:[],route:null,dragId:null,toastTimer:null,customCenter:null,currencyRates:{INR:1},currencyRateDate:null};
+  const state = {trip:null,map:null,markers:[],route:null,dragId:null,toastTimer:null,customCenter:null,currencyRates:{INR:1},currencyRateDate:null,geoLookupFor:null};
   const RATE_CACHE_KEY="travlzi.currencyRates.v1";
   const supportedCurrencies=["INR","USD","EUR","GBP","AED","SGD","AUD","CAD","JPY","THB","LKR","MYR"];
   const currencyNames={INR:"Indian Rupee",USD:"US Dollar",EUR:"Euro",GBP:"British Pound",AED:"UAE Dirham",SGD:"Singapore Dollar",AUD:"Australian Dollar",CAD:"Canadian Dollar",JPY:"Japanese Yen",THB:"Thai Baht",LKR:"Sri Lankan Rupee",MYR:"Malaysian Ringgit"};
@@ -337,7 +337,7 @@
   function renderStats(){
     const tTrip=state.trip,stops=tTrip.days.reduce((sum,d)=>sum+d.activities.length,0),days=tTrip.days.length;
     const budgetPerPerson=Number(tTrip.budget)||0,groupBudget=budgetPerPerson*(Number(tTrip.travellers)||1);
-    const plannedPerPerson=allActivities().reduce((sum,a)=>sum+(Number(a.cost)||0),0);
+    const scheduledActivities=tTrip.days.flatMap(day=>day.activities);\n    const plannedPerPerson=scheduledActivities.reduce((sum,a)=>sum+(Number(a.cost)||0),0);
     const groupSpend=plannedPerPerson*(Number(tTrip.travellers)||1),remaining=budgetPerPerson-plannedPerPerson;
     $("trip-title").textContent=tTrip.destination+" getaway";
     $("trip-subtitle").textContent=days+" days · "+tTrip.travellers+" travellers · from "+(tTrip.origin||"your city");
@@ -375,9 +375,13 @@
     return tripKey(state.trip.destination)||state.customCenter?11:4;
   }
   async function resolveDestinationMapCenter(){
-    if(tripKey(state.trip.destination)){state.customCenter=null;return;}
+    const destination=String(state.trip.destination||"").trim();
+    const signature=destination.toLowerCase();
+    if(state.geoLookupFor===signature)return;
+    state.geoLookupFor=signature;
+    if(tripKey(destination)){state.customCenter=null;return;}
     try{
-      const query=encodeURIComponent(state.trip.destination);
+      const query=encodeURIComponent(destination);
       const response=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+query,{headers:{Accept:"application/json"}});
       if(!response.ok)return;
       const results=await response.json();
