@@ -337,7 +337,8 @@
   function renderStats(){
     const tTrip=state.trip,stops=tTrip.days.reduce((sum,d)=>sum+d.activities.length,0),days=tTrip.days.length;
     const budgetPerPerson=Number(tTrip.budget)||0,groupBudget=budgetPerPerson*(Number(tTrip.travellers)||1);
-    const scheduledActivities=tTrip.days.flatMap(day=>day.activities);\n    const plannedPerPerson=scheduledActivities.reduce((sum,a)=>sum+(Number(a.cost)||0),0);
+    const scheduledActivities=tTrip.days.flatMap(day=>day.activities);
+    const plannedPerPerson=scheduledActivities.reduce((sum,a)=>sum+(Number(a.cost)||0),0);
     const groupSpend=plannedPerPerson*(Number(tTrip.travellers)||1),remaining=budgetPerPerson-plannedPerPerson;
     $("trip-title").textContent=tTrip.destination+" getaway";
     $("trip-subtitle").textContent=days+" days · "+tTrip.travellers+" travellers · from "+(tTrip.origin||"your city");
