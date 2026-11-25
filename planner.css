@@ -100,3 +100,8 @@
 @media(max-width:700px){.day-heading{align-items:flex-start;flex-wrap:wrap;padding:11px 12px}.day-heading-detail{margin-left:auto;justify-items:end}.day-heading-controls{width:100%;justify-content:flex-end}.day-add-button{margin-right:auto}.activity-meta{flex-wrap:wrap;justify-content:flex-end}.activity-duration{font-size:.58rem}}
 @media(max-width:420px){.day-heading-controls{gap:4px}.day-add-button{font-size:.6rem;padding:7px}.day-heading-detail .day-count{font-size:.6rem}.day-time-total{font-size:.58rem}}
 .activity-card{cursor:default}.activity-card:active{cursor:default}.drag-handle{display:none}
+
+/* Activity cards no longer have a drag-handle column */
+.activity-card{grid-template-columns:62px minmax(0,1fr) auto}
+@media(max-width:1050px){.activity-card{grid-template-columns:56px minmax(0,1fr) auto}}
+@media(max-width:560px){.activity-card{grid-template-columns:52px minmax(0,1fr) auto}}
