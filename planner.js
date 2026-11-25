@@ -54,6 +54,19 @@
       ["Leakey's Bookshop","Explore the atmospheric second-hand bookshop.","Culture","15:00",0,57.4784,-4.2253],
       ["Caledonian Canal","Enjoy an easy walk beside the canal.","Nature","17:00",0,57.4710,-4.2490]
     ]},
+    pondicherry:{name:"Pondicherry",lat:11.9416,lon:79.8083,places:[
+      ["Promenade Beach sunrise","Enjoy an early walk along the seafront promenade.","Nature","06:00",0,11.9354,79.8426],
+      ["White Town / French Quarter","Explore the heritage streets and colourful colonial-era facades on foot.","Culture","08:00",0,11.9340,79.8356],
+      ["Sri Aurobindo Ashram","Visit the ashram quietly and follow the visitor guidance on site.","Culture","10:00",0,11.9322,79.8350],
+      ["Bharathi Park and French War Memorial","Take a relaxed walk through the green heart of the heritage quarter.","Attraction","11:30",0,11.9311,79.8330],
+      ["Pondicherry lunch","Try local Tamil flavours and the town's café culture.","Food","13:00",650,11.9330,79.8350],
+      ["Serenity Beach","Spend the late afternoon by the coast; check sea conditions before swimming.","Nature","16:00",0,11.9688,79.8437],
+      ["Auroville Visitor Centre","Explore the visitor centre and learn about the Auroville community.","Culture","09:00",0,12.0055,79.8099],
+      ["Matrimandir viewing area","Visit the designated viewing area; check current access and booking guidance first.","Attraction","10:30",0,12.0059,79.8084],
+      ["Chunnambar Boat House","Check local boat availability and conditions for a trip towards Paradise Beach.","Attraction","14:00",300,11.8769,79.8140],
+      ["Paradise Beach","Enjoy the beach if boat services and weather conditions permit.","Nature","15:00",0,11.8794,79.8172],
+      ["Botanical Garden","Take a slower walk among the garden paths and greenery.","Nature","17:00",30,11.9285,79.8258]
+    ]},
     agatti:{name:"Agatti Island",lat:10.8510,lon:72.1850,places:[
       ["Lagoon morning","Enjoy the clear lagoon and a gentle beach walk.","Nature","08:00",0,10.8510,72.1850],
       ["Snorkelling session","Explore the reef only with an authorised local operator and suitable conditions.","Attraction","10:00",1800,10.8500,72.1860],
@@ -62,12 +75,30 @@
       ["Lagoon sunset","Keep the evening open for the water and changing light.","Nature","17:30",0,10.8510,72.1850]
     ]}
   };
-  const state = {trip:null,map:null,markers:[],route:null,dragId:null,toastTimer:null};
+  const state = {trip:null,map:null,markers:[],route:null,dragId:null,toastTimer:null,customCenter:null};
   function defaultTrip(){
     const start=addDays(iso(today),14),end=addDays(start,2);
     return {destination:"Goa",origin:"Bengaluru",startDate:start,endDate:end,travellers:2,travelStyle:"balanced",budget:25000,days:[],ideas:[],updatedAt:null};
   }
-  function tripKey(destination){const key=String(destination||"").toLowerCase();return Object.keys(destinations).find(k=>key.includes(k)||destinations[k].name.toLowerCase().includes(key))||"goa";}
+  function tripKey(destination){
+    const key=String(destination||"").trim().toLowerCase();
+    if(!key)return null;
+    if(key.includes("pondicherry")||key.includes("puducherry"))return "pondicherry";
+    return Object.keys(destinations).find(k=>key===k||key.includes(k)||destinations[k].name.toLowerCase()===key)||null;
+  }
+  function customPlaces(destination){
+    const name=String(destination||"your destination").trim();
+    return [
+      ["Explore "+name+" town centre","Start with a gentle walk through the main streets and get your bearings.","Attraction","09:00",0],
+      ["Visit a local landmark","Choose a well-known landmark or heritage site that interests you.","Culture","10:30",0],
+      ["Regional food stop","Try a local breakfast or a popular regional dish.","Food","12:30",500],
+      ["Discover a local market","Browse everyday markets, crafts and local produce.","Culture","15:00",0],
+      ["A relaxed neighbourhood walk","Explore a nearby neighbourhood at an unhurried pace.","Nature","16:30",0],
+      ["Local dinner","Finish the day with a local restaurant or café.","Food","19:00",700],
+      ["Optional day trip","Add a nearby town, nature spot or experience after checking travel time.","Attraction","09:00",0],
+      ["Free time","Leave a little room for rest and spontaneous discoveries.","Free time","16:00",0]
+    ];
+  }
   function makeActivity(place,dayIndex){
     return {id:uid(),name:place[0],note:place[1],category:place[2],time:place[3],cost:place[4],lat:place[5],lon:place[6],day:dayIndex};
   }
@@ -88,7 +119,16 @@
     catch(error){$("save-state").textContent="Could not save";toast("Browser storage is unavailable. Export your trip to keep a copy.");}
   }
   function load(){
-    try{const saved=JSON.parse(localStorage.getItem(STORE_KEY)||"null");if(saved&&saved.destination&&Array.isArray(saved.days))return saved;}catch(error){}
+    try{
+      const saved=JSON.parse(localStorage.getItem(STORE_KEY)||"null");
+      if(saved&&saved.destination&&Array.isArray(saved.days)){
+        const savedKey=tripKey(saved.destination);
+        const oldStops=saved.days.flatMap(day=>day.activities||[]).map(a=>String(a.name||"")+" "+String(a.note||"")).join(" ").toLowerCase();
+        const staleGoaPlan=savedKey!=="goa"&&/fort aguada|fontainhas|panjim|vagator|goan thali/.test(oldStops);
+        if(staleGoaPlan){saved.days=buildDays(saved);saved.ideas=[];}
+        return saved;
+      }
+    }catch(error){}
     const trip=defaultTrip();trip.days=buildDays(trip);return trip;
   }
   function setFormFromTrip(){
@@ -167,7 +207,7 @@
   }
   function initMap(){
     if(!window.L){$("trip-map").innerHTML='<p class="empty-state" style="padding:20px">Map library could not load. Your itinerary still works without the map.</p>';return;}
-    state.map=L.map("trip-map",{scrollWheelZoom:false}).setView(mapCenter(),11);
+    state.map=L.map("trip-map",{scrollWheelZoom:false}).setView(mapCenter(),mapZoom());
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(state.map);
     renderMap();
   }
@@ -185,7 +225,7 @@
     });
     if(points.length>1)state.route=L.polyline(points,{color:"#087f8c",weight:3,opacity:.65,dashArray:"5 7"}).addTo(state.map);
     if(items.length)state.map.fitBounds(items.map(a=>[Number(a.lat),Number(a.lon)]),{padding:[25,25],maxZoom:13});
-    else state.map.setView(mapCenter(),11);
+    else state.map.setView(mapCenter(),mapZoom());
     setTimeout(()=>state.map.invalidateSize(),80);
   }
   function escapeHtml(text){return String(text).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
@@ -270,11 +310,11 @@
   $("export-button").addEventListener("click",exportTrip);
   $("print-button").addEventListener("click",()=>window.print());
   $("suggest-button").addEventListener("click",suggestTweak);
-  $("map-reset").addEventListener("click",()=>{if(state.map)state.map.setView(mapCenter(),11);});
+  $("map-reset").addEventListener("click",()=>{if(state.map)state.map.setView(mapCenter(),mapZoom());});
   $("trip-form").addEventListener("change",()=>{if(updateTripFromForm()){renderStats();save(true);}});
   $("whatsapp-planner").addEventListener("click",event=>{
     const number="918147728538";const text="Hi Travlzi! I'd like help planning a "+state.trip.days.length+"-day trip to "+state.trip.destination+" from "+state.trip.origin+".";
     event.currentTarget.href="https://wa.me/"+number+"?text="+encodeURIComponent(text);
   });
-  state.trip=load();setFormFromTrip();renderStats();initMap();render();save(true);
+  state.trip=load();setFormFromTrip();renderStats();initMap();render();save(true);resolveDestinationMapCenter();
 })();
