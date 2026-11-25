@@ -233,7 +233,7 @@
         const savedKey=tripKey(saved.destination);
         const oldStops=saved.days.flatMap(day=>day.activities||[]).map(a=>String(a.name||"")+" "+String(a.note||"")).join(" ").toLowerCase();
         const staleGoaPlan=savedKey!=="goa"&&/fort aguada|fontainhas|panjim|vagator|goan thali/.test(oldStops);
-        if(staleGoaPlan){saved.days=buildDays(saved);saved.ideas=[];}
+        if(staleGoaPlan){saved.days=buildDays(saved);saved.ideas=[];saved.expenses=[];}
         if(!supportedCurrencies.includes(saved.currency))saved.currency="INR";
         if(!dictionaries[saved.language])saved.language="en";
         if(!Array.isArray(saved.ideas))saved.ideas=[];
