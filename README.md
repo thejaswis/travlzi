@@ -22,6 +22,10 @@ The planner is available at `/planner.html`. Existing destination pages, travel 
 - View itinerary pins and a connecting line on an OpenStreetMap-powered map.
 - Estimate group budget and daily allowance.
 - Save the current trip in browser local storage.
+- Browse a destination activity library, filter/search activities, and add a removed activity back to any day.
+- Edit activity cost estimates; the budget snapshot recalculates planned spend, remaining per-person budget, group budget and category totals.
+- Display amounts in INR, USD, EUR, GBP, AED, SGD, AUD, CAD, JPY, THB, LKR or MYR using cached reference exchange rates.
+- Switch planner interface labels between English, Hindi, Kannada, Tamil, Telugu, Malayalam, Marathi and Bengali.
 - Export a trip as JSON or print it.
 - Mobile-friendly layout and accessible form controls.
 
@@ -51,7 +55,7 @@ Without this endpoint, the planner creates a curated local starter itinerary. It
 - Leaflet is loaded from unpkg for map display.
 - Map tiles and geocoding use OpenStreetMap services.
 - Map/geocoding availability depends on third-party service availability and usage policies. No API key is embedded in the site.
-- The planner stores trips locally in the current browser. There is no account, cloud sync or multi-user collaboration yet.
+- The planner stores trips locally in the current browser. There is no account, cloud sync or multi-user collaboration yet. Activity costs and the trip budget are stored in INR; the selected currency is a display/input conversion. The exchange-rate service is refreshed no more than once per 20 hours per browser profile and cached locally. Rates are indicative reference rates, not payment quotes. The rate provider requires visible attribution, included in the budget panel. The language selector translates planner interface labels; destination names and curated activity descriptions remain in their authored language.
 
 ## Edit homepage content
 
