@@ -15,7 +15,7 @@
 <body>
   <header class="planner-header">
     <a class="brand" href="index.html" aria-label="Travlzi home"><img src="images/travlzi-logo.svg" alt="Travlzi"></a>
-    <nav aria-label="Planner navigation"><a href="index.html" data-i18n="home">Home</a><a href="travel-essentials.html" data-i18n="essentials">Travel essentials</a><label class="language-control"><span data-i18n="language">Language</span><select id="language-select" aria-label="Choose language"><option value="en">English</option><option value="hi">हिन्दी</option><option value="kn">ಕನ್ನಡ</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option><option value="ml">മലയാളം</option><option value="mr">मराठी</option><option value="bn">বাংলা</option></select></label><a class="header-cta" href="index.html#contact" data-i18n="talkToTravlzi">Talk to Travlzi ↗</a></nav>
+    <nav aria-label="Planner navigation"><a href="index.html" data-i18n="home">Home</a><a href="travel-essentials.html" data-i18n="essentials">Travel essentials</a><label class="language-control"><span data-i18n="language">Language</span><select id="language-select" aria-label="Choose language"><option value="en">English</option><option value="hi">हिन्दी</option><option value="kn">ಕನ್ನಡ</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option><option value="ml">മലയാളം</option><option value="mr">मराठी</option><option value="bn">বাংলা</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="ja">日本語</option></select></label><a class="header-cta" href="index.html#contact" data-i18n="talkToTravlzi">Talk to Travlzi ↗</a></nav>
   </header>
 
   <main class="planner-shell">
@@ -87,6 +87,24 @@
           <p class="budget-note" data-i18n="budgetNote">Activity costs are treated as estimates per person. Add or edit activity costs to update this snapshot.</p>
           <p class="currency-note" id="currency-rate-note">Amounts are shown in INR.</p>
           <a class="rate-source" href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer">Rates By Exchange Rate API</a>
+        </section>
+
+        <section class="actual-expenses panel" aria-labelledby="actual-expenses-title">
+          <div class="actual-expenses-heading"><div><p class="eyebrow" data-i18n="actualExpensesEyebrow">REAL-WORLD SPENDING</p><h3 id="actual-expenses-title" data-i18n="actualExpensesTitle">Track actual expenses</h3><p data-i18n="actualExpensesNote">Log what your group actually pays. These amounts are separate from itinerary estimates.</p></div></div>
+          <form id="expense-form" class="expense-form">
+            <label class="field expense-description-field"><span data-i18n="expenseDescription">What did you pay for?</span><input id="expense-description" maxlength="90" required placeholder="e.g. Airport taxi" data-i18n-placeholder="expenseDescriptionPlaceholder"></label>
+            <label class="field"><span data-i18n="expenseCategory">Category</span><select id="expense-category"><option value="Food" data-i18n="food">Food</option><option value="Transport" data-i18n="transport">Transport</option><option value="Stay" data-i18n="stay">Stay</option><option value="Experience" data-i18n="experienceSpend">Experiences</option></select></label>
+            <label class="field"><span id="expense-amount-label" data-i18n="expenseAmount">Amount paid for everyone</span><input id="expense-amount" type="number" min="0.01" step="0.01" required placeholder="0"></label>
+            <label class="field"><span data-i18n="expenseDate">Date</span><input id="expense-date" type="date" required></label>
+            <button class="button button-primary expense-submit" type="submit" data-i18n="addExpense">＋ Add expense</button>
+          </form>
+          <p class="expense-form-note" data-i18n="expensesCurrencyNote">Enter the total paid for the group in the selected currency.</p>
+          <div class="actual-expense-summary">
+            <div><span data-i18n="actualSpendGroup">Actual spend (group)</span><strong id="actual-total">₹0</strong></div>
+            <div><span data-i18n="actualSpendPerPerson">Actual per person</span><strong id="actual-per-person">₹0</strong></div>
+            <div><span data-i18n="actualBudgetLeft">Budget left (group)</span><strong id="actual-remaining">₹50,000</strong></div>
+          </div>
+          <div id="actual-expense-list" class="actual-expense-list" aria-live="polite"><p class="empty-state" data-i18n="noExpenses">No expenses recorded yet.</p></div>
         </section>
         <section class="helper-panel panel">
           <div class="helper-icon">✳</div><div><h3 data-i18n="needInspiration">Need a little inspiration?</h3><p data-i18n="inspirationNote">Try a slower day, add a local food stop, or leave space for an unexpected detour.</p><button id="suggest-button" class="text-button" type="button" data-i18n="suggestTweak">Suggest a tweak ↗</button></div>
