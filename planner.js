@@ -102,7 +102,7 @@
     const next={destination:$("destination").value.trim(),origin:$("origin").value.trim(),startDate:start,endDate:end,travellers:Number($("travellers").value),travelStyle:$("travel-style").value,budget:Number($("budget").value)||0,days:state.trip.days,ideas:state.trip.ideas||[],updatedAt:null};
     if(!next.destination){toast("Add a destination to build your trip.");return false;}
     const oldCount=state.trip.days.length,newCount=Math.min(14,Math.round((new Date(end+"T12:00:00")-new Date(start+"T12:00:00"))/86400000)+1);
-    if(oldCount!==newCount||state.trip.startDate!==start){next.days=buildDays(next);next.ideas=state.trip.ideas||[];}
+    if(oldCount!==newCount||state.trip.startDate!==start||state.trip.endDate!==end){next.days=buildDays(next);next.ideas=state.trip.ideas||[];}
     state.trip=next;return true;
   }
   function fmtDate(date){return new Intl.DateTimeFormat("en-IN",{weekday:"short",day:"numeric",month:"short"}).format(new Date(date+"T12:00:00"));}
@@ -198,7 +198,7 @@
     const ideaIndex=(state.trip.ideas||[]).findIndex(a=>a.id===id);if(ideaIndex>=0)activity=state.trip.ideas.splice(ideaIndex,1)[0];
     if(!activity)return;
     if(asIdea||targetDay<0){state.trip.ideas.push(activity);}
-    else{const day=Math.max(0,Math.min(state.trip.days.length-1,targetDay));activity.day=day;state.trip.days[day].activities.push(activity);state.trip.days[day].activities.sort((a,b)=>(a.time||"").localeCompare(b.time||""));}
+    else{const day=Math.max(0,Math.min(state.trip.days.length-1,targetDay));activity.day=day;state.trip.days[day].activities.push(activity);}
     render();save(true);
   }
   function removeActivity(id){
