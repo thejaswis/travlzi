@@ -25,7 +25,7 @@ The planner is available at `/planner.html`. Existing destination pages, travel 
 - Export a trip as JSON or print it.
 - Mobile-friendly layout and accessible form controls.
 
-The initial destination templates cover Goa, Kerala, Bali, Kyoto, Interlaken, Inverness and Agatti Island. Unknown destinations use the Goa starter template until a destination dataset is added.
+The initial destination templates cover Goa, Kerala, Bali, Kyoto, Interlaken, Inverness, Pondicherry (Puducherry) and Agatti Island. Other destination names receive a clearly labelled generic starter plan, with the map centred on the destination when geocoding is available; they do not silently fall back to Goa.
 
 ## AI itinerary endpoint (optional integration)
 
