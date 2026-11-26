@@ -334,7 +334,9 @@
     select.value=String(Math.max(0,Math.min(state.trip.days.length-1,selected)));
   }
   function sponsoredForDay(day){
-    const stops=(day.activities||[]).filter(a=>Number.isFinite(Number(a.lat))&&Number.isFinite(Number(a.lon)));
+    const activities=day.activities||[];
+    const stops=activities.map((activity,index)=>({activity,index})).filter(({activity})=>
+      Number.isFinite(Number(activity.lat))&&Number.isFinite(Number(activity.lon)));
     if(!stops.length)return [];
     const destination=String(state.trip.destination||"").trim().toLowerCase();
     return sponsoredPartners.filter(partner=>{
@@ -342,37 +344,40 @@
       if(!partner.destinations.some(item=>String(item).trim().toLowerCase()===destination))return false;
       if(!Number.isFinite(Number(partner.lat))||!Number.isFinite(Number(partner.lon)))return false;
       return true;
-    }).map(partner=>({
-      partner,
-      distance:Math.min(...stops.map(stop=>geoDistance({lat:Number(partner.lat),lon:Number(partner.lon)},stop)))
-    })).filter(item=>item.distance<=25).sort((a,b)=>a.distance-b.distance).slice(0,2);
+    }).map(partner=>{
+      const nearest=stops.map(({activity,index})=>({
+        index,distance:geoDistance({lat:Number(partner.lat),lon:Number(partner.lon)},activity)
+      })).sort((a,b)=>a.distance-b.distance)[0];
+      return {partner,distance:nearest.distance,activityIndex:nearest.index};
+    }).filter(item=>item.distance<=25).sort((a,b)=>a.distance-b.distance).slice(0,2);
   }
-  function renderSponsoredPartners(day){
-    const matches=sponsoredForDay(day);
-    if(!matches.length)return null;
-    const section=document.createElement("section");section.className="sponsored-partners";
-    const heading=document.createElement("p");heading.className="sponsored-section-label";heading.textContent="LOCAL PARTNERS NEAR THIS DAY";section.append(heading);
-    matches.forEach(({partner,distance})=>{
-      const card=document.createElement("article");card.className="sponsored-partner-card";
-      const top=document.createElement("div");top.className="sponsored-partner-top";
-      const name=document.createElement("strong");name.textContent=partner.name;
-      const badge=document.createElement("span");badge.className="sponsored-label";badge.textContent="Sponsored";
-      top.append(name,badge);
-      const description=document.createElement("p");description.textContent=partner.description||partner.category||"A local business near your planned route.";
-      const meta=document.createElement("span");meta.className="sponsored-partner-meta";
-      meta.textContent=[partner.area,Math.round(distance)+" km from your planned stops",partner.category].filter(Boolean).join(" · ");
-      card.append(top,description,meta);
-      if(partner.offer){const offer=document.createElement("p");offer.className="sponsored-partner-offer";offer.textContent=partner.offer;card.append(offer);}
-      const target=String(partner.website||"");
-      if(/^https:\/\//i.test(target)){
-        const link=document.createElement("a");link.href=target;link.target="_blank";link.rel="noopener noreferrer";link.className="sponsored-partner-link";link.textContent="Visit partner ↗";card.append(link);
-      }else if(partner.whatsapp){
-        const phone=String(partner.whatsapp).replace(/[^0-9]/g,"");
-        if(phone){const link=document.createElement("a");link.href="https://wa.me/"+phone;link.target="_blank";link.rel="noopener noreferrer";link.className="sponsored-partner-link";link.textContent="Contact partner ↗";card.append(link);}
-      }
-      section.append(card);
-    });
-    return section;
+  function renderSponsoredPartnerCard({partner,distance}){
+    const card=document.createElement("article");card.className="sponsored-partner-card sponsored-inline-card";
+    const attribution=document.createElement("span");attribution.className="sponsored-attribution";
+    attribution.textContent="Sponsored by "+String(partner.sponsorDomain||"example.com");
+    const top=document.createElement("div");top.className="sponsored-partner-top";
+    const name=document.createElement("strong");name.textContent=partner.name;
+    const badge=document.createElement("span");badge.className="sponsored-label";badge.textContent="Sponsored";
+    top.append(name,badge);
+    const description=document.createElement("p");description.textContent=partner.description||partner.category||"A local business near your planned route.";
+    const meta=document.createElement("span");meta.className="sponsored-partner-meta";
+    meta.textContent=[partner.area,Math.round(distance)+" km from this stop",partner.category].filter(Boolean).join(" · ");
+    card.append(attribution,top,description,meta);
+    if(partner.offer){const offer=document.createElement("p");offer.className="sponsored-partner-offer";offer.textContent=partner.offer;card.append(offer);}
+    const target=String(partner.website||"");
+    if(/^https:\/\//i.test(target)){
+      const link=document.createElement("a");link.href=target;link.target="_blank";link.rel="noopener noreferrer";link.className="sponsored-partner-link";link.textContent="Visit partner ↗";card.append(link);
+    }else if(partner.whatsapp){
+      const phone=String(partner.whatsapp).replace(/[^0-9]/g,"");
+      if(phone){const link=document.createElement("a");link.href="https://wa.me/"+phone;link.target="_blank";link.rel="noopener noreferrer";link.className="sponsored-partner-link";link.textContent="Contact partner ↗";card.append(link);}
+    }
+    return card;
+  }
+  function sponsoredPlacementsForDay(day){
+    return sponsoredForDay(day).map(match=>({
+      activityIndex:match.activityIndex,
+      card:renderSponsoredPartnerCard(match)
+    }));
   }
   async function loadSponsoredPartners(){
     try{
@@ -400,10 +405,13 @@
       const down=document.createElement("button");down.type="button";down.className="day-swap-button";down.textContent="↓";down.disabled=index===state.trip.days.length-1;down.title=t("swapFullDay")+" with next day";down.setAttribute("aria-label",down.title);down.addEventListener("click",()=>swapDayPlan(index,1));controls.append(down);
       head.append(left,detail,controls);
       const list=document.createElement("div");list.className="activity-list";list.dataset.day=index;
-      day.activities.forEach(activity=>{activity.day=index;list.append(renderActivity(activity));});
+      const sponsoredPlacements=sponsoredPlacementsForDay(day);
+      day.activities.forEach((activity,activityIndex)=>{
+        activity.day=index;list.append(renderActivity(activity));
+        sponsoredPlacements.filter(item=>item.activityIndex===activityIndex).forEach(item=>list.append(item.card));
+      });
       if(!day.activities.length){const empty=document.createElement("p");empty.className="day-drop-hint";empty.textContent=t("noActivities");list.append(empty);}
       section.append(head,list);
-      const sponsored=renderSponsoredPartners(day);if(sponsored)section.append(sponsored);
       container.append(section);
     });
   }
