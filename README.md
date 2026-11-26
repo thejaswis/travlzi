@@ -27,6 +27,7 @@ The planner is available at `/planner.html`. Existing destination pages, travel 
 - Record actual group expenses by date and category, separately from itinerary estimates; view total actual spend, per-person average and remaining group budget.
 - Save the current trip in browser local storage.
 - Browse a destination activity library, filter/search activities, and add a removed activity back to any day.
+- Show clearly labelled, destination- and proximity-matched sponsored local partners beneath relevant itinerary days. Partner placements are loaded from `partners.json`; businesses can enquire through the partner link.
 - Edit activity cost estimates; the budget snapshot recalculates planned spend, remaining per-person budget, group budget and category totals. Category totals include scheduled activities only, not saved ideas.
 - Keep a separate actual-expense ledger. Each entry is a total group payment; the planner calculates actual spend per person by dividing by traveller count.
 - Display amounts in INR, USD, EUR, GBP, AED, SGD, AUD, CAD, JPY, THB, LKR or MYR using cached reference exchange rates.
@@ -70,3 +71,30 @@ Edit `content.json` to change the hero, founder details, destination cards and c
 
 Do not add private API keys to client-side JavaScript, HTML or JSON files. A real AI integration should run behind a server-side endpoint with rate limits, input validation and abuse protection.
 
+
+## Sponsored local partners
+
+The planner reads an optional static `partners.json` directory. Add one object per approved partner:
+
+```json
+[
+  {
+    "id": "goa-example-stay",
+    "name": "Business display name",
+    "destinations": ["Goa"],
+    "category": "Stay",
+    "area": "Candolim",
+    "lat": 15.52,
+    "lon": 73.76,
+    "description": "Short factual description of the business.",
+    "offer": "Optional traveller offer",
+    "website": "https://example.com",
+    "whatsapp": "919999999999",
+    "active": true
+  }
+]
+```
+
+A partner is shown only for an exact destination match and when it is within 25 km of a planned stop on that day. Up to two closest partners appear under each matching day. Set `active` to `false` to pause a listing. Keep paid placements clearly labelled as **Sponsored** and verify business details, offers and links before publishing.
+
+This is a static, manually managed directory: partner enquiries go to Travlzi over WhatsApp. It does not yet provide vendor accounts, payment collection, campaign analytics or automated billing. Do not add unverified businesses or imply that a listing is endorsed by Travlzi.

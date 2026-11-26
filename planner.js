@@ -2,6 +2,7 @@
   "use strict";
   const $ = id => document.getElementById(id);
   const STORE_KEY = "travlzi.trip.v1";
+  let sponsoredPartners = [];
   const today = new Date();
   const iso = date => { const d=new Date(date); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
   const addDays = (date,days) => { const d=new Date(date+"T12:00:00"); d.setDate(d.getDate()+days); return iso(d); };
@@ -332,6 +333,57 @@
     state.trip.days.forEach((day,i)=>{const o=document.createElement("option");o.value=String(i);o.textContent=t("day")+" "+(i+1)+" · "+fmtDate(day.date);select.append(o);});
     select.value=String(Math.max(0,Math.min(state.trip.days.length-1,selected)));
   }
+  function sponsoredForDay(day){
+    const stops=(day.activities||[]).filter(a=>Number.isFinite(Number(a.lat))&&Number.isFinite(Number(a.lon)));
+    if(!stops.length)return [];
+    const destination=String(state.trip.destination||"").trim().toLowerCase();
+    return sponsoredPartners.filter(partner=>{
+      if(partner.active===false||!partner.name||!Array.isArray(partner.destinations))return false;
+      if(!partner.destinations.some(item=>String(item).trim().toLowerCase()===destination))return false;
+      if(!Number.isFinite(Number(partner.lat))||!Number.isFinite(Number(partner.lon)))return false;
+      return true;
+    }).map(partner=>({
+      partner,
+      distance:Math.min(...stops.map(stop=>geoDistance({lat:Number(partner.lat),lon:Number(partner.lon)},stop)))
+    })).filter(item=>item.distance<=25).sort((a,b)=>a.distance-b.distance).slice(0,2);
+  }
+  function renderSponsoredPartners(day){
+    const matches=sponsoredForDay(day);
+    if(!matches.length)return null;
+    const section=document.createElement("section");section.className="sponsored-partners";
+    const heading=document.createElement("p");heading.className="sponsored-section-label";heading.textContent="LOCAL PARTNERS NEAR THIS DAY";section.append(heading);
+    matches.forEach(({partner,distance})=>{
+      const card=document.createElement("article");card.className="sponsored-partner-card";
+      const top=document.createElement("div");top.className="sponsored-partner-top";
+      const name=document.createElement("strong");name.textContent=partner.name;
+      const badge=document.createElement("span");badge.className="sponsored-label";badge.textContent="Sponsored";
+      top.append(name,badge);
+      const description=document.createElement("p");description.textContent=partner.description||partner.category||"A local business near your planned route.";
+      const meta=document.createElement("span");meta.className="sponsored-partner-meta";
+      meta.textContent=[partner.area,Math.round(distance)+" km from your planned stops",partner.category].filter(Boolean).join(" · ");
+      card.append(top,description,meta);
+      if(partner.offer){const offer=document.createElement("p");offer.className="sponsored-partner-offer";offer.textContent=partner.offer;card.append(offer);}
+      const target=String(partner.website||"");
+      if(/^https:\/\//i.test(target)){
+        const link=document.createElement("a");link.href=target;link.target="_blank";link.rel="noopener noreferrer";link.className="sponsored-partner-link";link.textContent="Visit partner ↗";card.append(link);
+      }else if(partner.whatsapp){
+        const phone=String(partner.whatsapp).replace(/[^0-9]/g,"");
+        if(phone){const link=document.createElement("a");link.href="https://wa.me/"+phone;link.target="_blank";link.rel="noopener noreferrer";link.className="sponsored-partner-link";link.textContent="Contact partner ↗";card.append(link);}
+      }
+      section.append(card);
+    });
+    return section;
+  }
+  async function loadSponsoredPartners(){
+    try{
+      const response=await fetch("partners.json",{cache:"no-cache"});
+      if(!response.ok)throw new Error("Partner directory unavailable");
+      const data=await response.json();
+      sponsoredPartners=Array.isArray(data)?data:[];
+      render();
+    }catch(error){console.info("Sponsored partner directory is not available yet.");}
+  }
+
   function renderDays(){
     const container=$("days-container");container.replaceChildren();
     state.trip.days.forEach((day,index)=>{
@@ -350,7 +402,9 @@
       const list=document.createElement("div");list.className="activity-list";list.dataset.day=index;
       day.activities.forEach(activity=>{activity.day=index;list.append(renderActivity(activity));});
       if(!day.activities.length){const empty=document.createElement("p");empty.className="day-drop-hint";empty.textContent=t("noActivities");list.append(empty);}
-      section.append(head,list);container.append(section);
+      section.append(head,list);
+      const sponsored=renderSponsoredPartners(day);if(sponsored)section.append(sponsored);
+      container.append(section);
     });
   }
   function renderIdeas(){
@@ -657,5 +711,5 @@
     const number="918147728538";const text="Hi Travlzi! I'd like help planning a "+state.trip.days.length+"-day trip to "+state.trip.destination+" from "+state.trip.origin+".";
     event.currentTarget.href="https://wa.me/"+number+"?text="+encodeURIComponent(text);
   });
-  state.trip=load();setFormFromTrip();$("expense-date").value=iso(today);applyLanguage();renderStats();initMap();render();save(true);resolveDestinationMapCenter();loadCurrencyRates();
+  state.trip=load();setFormFromTrip();$("expense-date").value=iso(today);applyLanguage();renderStats();initMap();render();save(true);resolveDestinationMapCenter();loadCurrencyRates();loadSponsoredPartners();
 })();
