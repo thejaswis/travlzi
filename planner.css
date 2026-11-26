@@ -128,3 +128,12 @@
 .sponsored-partner-card .sponsored-partner-offer{font-weight:800;color:#8a6428}
 .sponsored-partner-link{justify-self:start;margin-top:2px;padding:7px 9px;font-size:.6rem}
 @media(max-width:600px){.partner-invite{align-items:flex-start;flex-direction:column}.partner-invite-link{width:100%}.sponsored-partners{margin-inline:8px;padding:9px}}
+
+
+/* Inline sponsored itinerary placements */
+.sponsored-inline-card{margin:4px 0 8px 62px;padding:11px 12px;border-color:#eadfca;background:#fffdf8;gap:6px}
+.sponsored-attribution{font-size:.56rem;font-weight:800;letter-spacing:.035em;color:#956d32}
+.sponsored-inline-card .sponsored-partner-top strong{font-size:.76rem}
+.sponsored-inline-card .sponsored-partner-link{margin-top:3px}
+@media(max-width:1050px){.sponsored-inline-card{margin-left:56px}}
+@media(max-width:560px){.sponsored-inline-card{margin-left:52px;padding:9px 10px}}
