@@ -1,0 +1,18 @@
+{
+  "name": "Travlzi — Travel, with a personal touch",
+  "short_name": "Travlzi",
+  "start_url": "./planner.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8f5",
+  "theme_color": "#087f8c",
+  "description": "Plan your trip, keep your budget, and save your travel memories.",
+  "icons": [
+    {
+      "src": "images/travlzi-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
