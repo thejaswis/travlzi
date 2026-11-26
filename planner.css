@@ -108,3 +108,23 @@
 
 /* Route-aware optional activity suggestions */
 .library-day-group{display:grid;gap:8px}.library-day-group+.library-day-group{margin-top:15px;padding-top:14px;border-top:1px solid var(--line)}.library-day-title{font:800 .78rem var(--font-head);color:var(--teal-dark);margin:0 0 2px}.library-item-info p{line-height:1.5}
+
+/* Sponsored local partner placements */
+.partner-invite{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;padding:16px 17px;border:1px dashed #a9c9c0;border-radius:11px;background:#f5faf8}
+.partner-invite>div{display:grid;gap:5px;min-width:0}
+.partner-invite-kicker{font-size:.58rem;font-weight:800;letter-spacing:.12em;color:#26766e}
+.partner-invite strong{font:800 .82rem var(--font-head);color:var(--ink)}
+.partner-invite p{font-size:.65rem;line-height:1.5;color:var(--muted);margin:0}
+.partner-invite-link,.sponsored-partner-link{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border-radius:7px;padding:9px 11px;background:#145b60;color:white;text-decoration:none;font-size:.65rem;font-weight:800;white-space:nowrap}
+.partner-invite-link:hover,.sponsored-partner-link:hover{background:#0e454a}
+.sponsored-partners{display:grid;gap:8px;margin:0 12px 12px;padding:12px;border:1px solid #eadfca;border-radius:10px;background:#fffdf8}
+.sponsored-section-label{font-size:.56rem;letter-spacing:.1em;font-weight:800;color:#9a7137;margin:0}
+.sponsored-partner-card{display:grid;gap:5px;padding:10px;border:1px solid #eee4d2;border-radius:8px;background:#fff}
+.sponsored-partner-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sponsored-partner-top strong{font-size:.74rem;color:var(--ink)}
+.sponsored-label{padding:4px 7px;border-radius:99px;background:#f8efd9;color:#8a6428;font-size:.54rem;font-weight:800;white-space:nowrap}
+.sponsored-partner-card>p{font-size:.64rem;line-height:1.45;color:var(--muted);margin:0}
+.sponsored-partner-meta{font-size:.57rem;color:#7b8982}
+.sponsored-partner-card .sponsored-partner-offer{font-weight:800;color:#8a6428}
+.sponsored-partner-link{justify-self:start;margin-top:2px;padding:7px 9px;font-size:.6rem}
+@media(max-width:600px){.partner-invite{align-items:flex-start;flex-direction:column}.partner-invite-link{width:100%}.sponsored-partners{margin-inline:8px;padding:9px}}
