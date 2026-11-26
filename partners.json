@@ -1,1 +1,116 @@
-[]
+[
+  {
+    "id": "demo-goa-company1",
+    "name": "Company1",
+    "destinations": [
+      "Goa"
+    ],
+    "category": "Local business",
+    "area": "Panaji",
+    "lat": 15.4909,
+    "lon": 73.8278,
+    "description": "Demo sponsored partner listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  },
+  {
+    "id": "demo-goa-restaurant1",
+    "name": "Restaurant1",
+    "destinations": [
+      "Goa"
+    ],
+    "category": "Restaurant",
+    "area": "Candolim",
+    "lat": 15.518,
+    "lon": 73.762,
+    "description": "Demo restaurant listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  },
+  {
+    "id": "demo-bangalore-company1",
+    "name": "Company1",
+    "destinations": [
+      "Bangalore",
+      "Bengaluru"
+    ],
+    "category": "Local business",
+    "area": "MG Road",
+    "lat": 12.9756,
+    "lon": 77.6066,
+    "description": "Demo sponsored partner listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  },
+  {
+    "id": "demo-bangalore-restaurant1",
+    "name": "Restaurant1",
+    "destinations": [
+      "Bangalore",
+      "Bengaluru"
+    ],
+    "category": "Restaurant",
+    "area": "Indiranagar",
+    "lat": 12.9784,
+    "lon": 77.6408,
+    "description": "Demo restaurant listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  },
+  {
+    "id": "demo-mumbai-company1",
+    "name": "Company1",
+    "destinations": [
+      "Mumbai"
+    ],
+    "category": "Local business",
+    "area": "Fort",
+    "lat": 18.9322,
+    "lon": 72.8354,
+    "description": "Demo sponsored partner listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  },
+  {
+    "id": "demo-mumbai-restaurant1",
+    "name": "Restaurant1",
+    "destinations": [
+      "Mumbai"
+    ],
+    "category": "Restaurant",
+    "area": "Colaba",
+    "lat": 18.9067,
+    "lon": 72.8147,
+    "description": "Demo restaurant listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  },
+  {
+    "id": "demo-agatti-company1",
+    "name": "Company1",
+    "destinations": [
+      "Agatti Island"
+    ],
+    "category": "Local business",
+    "area": "Agatti",
+    "lat": 10.854,
+    "lon": 72.194,
+    "description": "Demo sponsored partner listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  },
+  {
+    "id": "demo-agatti-restaurant1",
+    "name": "Restaurant1",
+    "destinations": [
+      "Agatti Island"
+    ],
+    "category": "Restaurant",
+    "area": "Agatti",
+    "lat": 10.854,
+    "lon": 72.194,
+    "description": "Demo restaurant listing for preview purposes.",
+    "sponsorDomain": "example.com",
+    "active": true
+  }
+]
