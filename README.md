@@ -27,7 +27,7 @@ The planner is available at `/planner.html`. Existing destination pages, travel 
 - Record actual group expenses by date and category, separately from itinerary estimates; view total actual spend, per-person average and remaining group budget.
 - Save the current trip in browser local storage.
 - Browse a destination activity library, filter/search activities, and add a removed activity back to any day.
-- Show clearly labelled, destination- and proximity-matched sponsored local partners beneath relevant itinerary days. Partner placements are loaded from `partners.json`; businesses can enquire through the partner link.
+- Show clearly labelled, destination- and proximity-matched sponsored local partners inline after the closest relevant stop in each day itinerary. Each card displays the business name and a “Sponsored by example.com” attribution by default (customisable per partner). Partner placements are loaded from `partners.json`; businesses can enquire through the partner link.
 - Edit activity cost estimates; the budget snapshot recalculates planned spend, remaining per-person budget, group budget and category totals. Category totals include scheduled activities only, not saved ideas.
 - Keep a separate actual-expense ledger. Each entry is a total group payment; the planner calculates actual spend per person by dividing by traveller count.
 - Display amounts in INR, USD, EUR, GBP, AED, SGD, AUD, CAD, JPY, THB, LKR or MYR using cached reference exchange rates.
@@ -95,6 +95,6 @@ The planner reads an optional static `partners.json` directory. Add one object p
 ]
 ```
 
-A partner is shown only for an exact destination match and when it is within 25 km of a planned stop on that day. Up to two closest partners appear under each matching day. Set `active` to `false` to pause a listing. Keep paid placements clearly labelled as **Sponsored** and verify business details, offers and links before publishing.
+A partner is shown only for an exact destination match and when it is within 25 km of a planned stop on that day. Up to two closest partners appear inline immediately after their nearest planned stop; they are display-only and do not change itinerary activities, time totals, costs or map pins. Set `active` to `false` to pause a listing. Set optional `sponsorDomain` (for example, `example.com`) to customise the “Sponsored by …” attribution. Keep paid placements clearly labelled as **Sponsored** and verify business details, offers and links before publishing.
 
 This is a static, manually managed directory: partner enquiries go to Travlzi over WhatsApp. It does not yet provide vendor accounts, payment collection, campaign analytics or automated billing. Do not add unverified businesses or imply that a listing is endorsed by Travlzi.
